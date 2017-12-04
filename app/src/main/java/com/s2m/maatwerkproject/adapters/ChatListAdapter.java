@@ -2,6 +2,7 @@ package com.s2m.maatwerkproject.adapters;
 
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +12,29 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.models.Chat;
 import com.s2m.maatwerkproject.models.Group;
 import com.s2m.maatwerkproject.R;
+import com.s2m.maatwerkproject.models.Message;
+import com.s2m.maatwerkproject.ui.fragment.ChatListFragment;
 
 import org.apache.commons.lang3.StringUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListItemViewHolder> {
 
     private Chat[] chats;
+    private final ChatListFragment.OnChatSelectedInterface listener;
 
-    public ChatListAdapter(Chat[] chats){
+    public ChatListAdapter(Chat[] chats, ChatListFragment.OnChatSelectedInterface listener){
         this.chats = chats;
+        this.listener = listener;
     }
 
     @Override
     public ChatListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_chat_list, parent, false);
-        ChatListItemViewHolder viewHolder = new ChatListItemViewHolder(view);
-        return viewHolder;
+        return new ChatListItemViewHolder(view);
     }
 
     @Override
@@ -40,46 +47,51 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         return chats.length;
     }
 
-    public class ChatListItemViewHolder extends RecyclerView.ViewHolder {
+    class ChatListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView chatImage;
-        private TextView chatName;
-        private TextView groupName;
-        private TextView groupNames;
+        @BindView(R.id.imageViewChatListImage)
+        ImageView textViewChatImage;
+        @BindView(R.id.textViewChatListName)
+        TextView textViewChatName;
+        @BindView(R.id.textViewChatListGroup)
+        TextView textViewGroupName;
+        @BindView(R.id.textViewChatListLastMessage)
+        TextView textViewLastMessage;
 
-        public ChatListItemViewHolder(View itemView) {
+        private Chat chat;
+
+        ChatListItemViewHolder(View itemView) {
             super(itemView);
-            //TODO user Butterknife
-            chatImage = itemView.findViewById(R.id.imageViewChatListImage);
-            chatName = itemView.findViewById(R.id.textViewChatListName);
-            groupName = itemView.findViewById(R.id.textViewChatListMyGroup);
-            groupNames = itemView.findViewById(R.id.textViewChatListOtherGroups);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         void bindChatListItem(Chat chat){
             //TODO bind remaining data
             //TODO get group user is participating with
             //TODO do not allow nulls in group array
-            groupName.setText("");
-            groupNames.setText("");
-            int i = 0;
-            chatName.setText(chat.getName());
+            this.chat = chat;
+            textViewGroupName.setText("");
+            textViewLastMessage.setText("");
+
+            textViewChatName.setText(chat.getName());
             if(chat.getGroups() != null){
-                int x = 0;
-                String[] foreignGroups = new String[chat.getGroups().length - 1];
-                for(Group group : chat.getGroups()){
-                    if(i == 0){
-                        groupName.setText(group.getName());
-                    }
-                    else{
-                        foreignGroups[x] = group.getName();
-                        x++;
-                    }
-                    i++;
-                }
-                groupNames.setText(StringUtils.join(foreignGroups, "; "));
+                textViewGroupName.setText(chat.getGroups()[0].getName());
             }
+            if(chat.getMessages() != null){
+                Message message = chat.getMessages()[0];
+                textViewLastMessage.setText(Html
+                        .fromHtml("<b>" + message.getGroup().getName() + ":</b> " + message.getText()));
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            onChatSelected(chat);
         }
     }
 
+    private void onChatSelected(Chat chat) {
+        listener.onChatSelected(chat);
+    }
 }

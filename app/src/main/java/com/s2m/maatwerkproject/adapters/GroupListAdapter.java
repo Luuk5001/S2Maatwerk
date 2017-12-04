@@ -69,7 +69,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
                     userNames[i] = user.getName();
                     i++;
                 }
-                textViewGroupUsers.setText(StringUtils.join(userNames, "; "));
+                textViewGroupUsers.setText(StringUtils.join(userNames, ", "));
             }
         }
     }

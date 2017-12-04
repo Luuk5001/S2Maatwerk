@@ -9,6 +9,7 @@ public class Chat {
     public Chat(String name, Group[] groups, Message[] messages) {
         this.name = name;
         this.groups = groups;
+        this.messages = messages;
     }
 
     public String getName() {

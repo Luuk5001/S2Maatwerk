@@ -11,10 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.s2m.maatwerkproject.R;
+import com.s2m.maatwerkproject.models.Chat;
 import com.s2m.maatwerkproject.ui.fragment.ChatListFragment;
 import com.s2m.maatwerkproject.ui.fragment.GroupListFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+implements ChatListFragment.OnChatSelectedInterface{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,5 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onChatSelected(Chat chat) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
     }
 }
