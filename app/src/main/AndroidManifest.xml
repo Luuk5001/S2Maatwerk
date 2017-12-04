@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.s2m.maatwerkproject">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".UI.Activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".UI.Activity.CreateNewChatActivity">
+        </activity>
+        <activity android:name=".UI.Activity.CreateNewGroupActivity">
+        </activity>
+        <activity android:name=".UI.Activity.ChatActivity">
+        </activity>
+        <activity android:name=".UI.Activity.ChatInfoActivity">
+        </activity>
+        <activity android:name=".UI.Activity.GroupShortInfoActivity">
+        </activity>
+        <activity android:name=".UI.Activity.EditChatActivity">
+        </activity>
+        <activity android:name=".UI.Activity.PickGroupActivity">
+        </activity>
+        <activity android:name=".UI.Activity.GroupInfoActivity">
+        </activity>
+        <activity android:name=".UI.Activity.EditGroupActivity">
+        </activity>
+        <activity android:name=".UI.Activity.PickUserActivity">
+        </activity>
+        <activity android:name=".UI.Activity.SettingsActivity">
+        </activity>
+        <activity android:name=".UI.Activity.ChangeEmailActivity">
+        </activity>
+        <activity android:name=".UI.Activity.ChangePasswordActivity">
+        </activity>
+        <activity android:name=".UI.Activity.ChangePhoneNumberActivity">
+        </activity>
+    </application>
+
+</manifest>
