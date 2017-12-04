@@ -5,6 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.s2m.maatwerkproject.UI.Activity.ChatActivity">
+    tools:context="com.s2m.maatwerkproject.ui.activity.ChatActivity">
 
 </android.support.constraint.ConstraintLayout>

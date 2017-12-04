@@ -9,40 +9,40 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.Activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".UI.Activity.CreateNewChatActivity">
+        <activity android:name=".ui.activity.CreateNewChatActivity">
         </activity>
-        <activity android:name=".UI.Activity.CreateNewGroupActivity">
+        <activity android:name=".ui.activity.CreateNewGroupActivity">
         </activity>
-        <activity android:name=".UI.Activity.ChatActivity">
+        <activity android:name=".ui.activity.ChatActivity">
         </activity>
-        <activity android:name=".UI.Activity.ChatInfoActivity">
+        <activity android:name=".ui.activity.ChatInfoActivity">
         </activity>
-        <activity android:name=".UI.Activity.GroupShortInfoActivity">
+        <activity android:name=".ui.activity.GroupShortInfoActivity">
         </activity>
-        <activity android:name=".UI.Activity.EditChatActivity">
+        <activity android:name=".ui.activity.EditChatActivity">
         </activity>
-        <activity android:name=".UI.Activity.PickGroupActivity">
+        <activity android:name=".ui.activity.PickGroupActivity">
         </activity>
-        <activity android:name=".UI.Activity.GroupInfoActivity">
+        <activity android:name=".ui.activity.GroupInfoActivity">
         </activity>
-        <activity android:name=".UI.Activity.EditGroupActivity">
+        <activity android:name=".ui.activity.EditGroupActivity">
         </activity>
-        <activity android:name=".UI.Activity.PickUserActivity">
+        <activity android:name=".ui.activity.PickUserActivity">
         </activity>
-        <activity android:name=".UI.Activity.SettingsActivity">
+        <activity android:name=".ui.activity.SettingsActivity">
         </activity>
-        <activity android:name=".UI.Activity.ChangeEmailActivity">
+        <activity android:name=".ui.activity.ChangeEmailActivity">
         </activity>
-        <activity android:name=".UI.Activity.ChangePasswordActivity">
+        <activity android:name=".ui.activity.ChangePasswordActivity">
         </activity>
-        <activity android:name=".UI.Activity.ChangePhoneNumberActivity">
+        <activity android:name=".ui.activity.ChangePhoneNumberActivity">
         </activity>
     </application>
 
