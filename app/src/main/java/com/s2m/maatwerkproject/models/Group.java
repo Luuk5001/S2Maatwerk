@@ -1,11 +1,19 @@
 package com.s2m.maatwerkproject.models;
 
+import org.parceler.Parcel;
 
+@Parcel
 public class Group {
+
+    public static final String GROUP_MODEL_KEY = "group_model";
+
     private String name;
     private String description;
     private String location;
     private User[] users;
+
+    public Group() {
+    }
 
     public Group(String name, String description, String location, User[] users) {
         this.name = name;

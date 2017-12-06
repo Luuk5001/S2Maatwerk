@@ -12,11 +12,18 @@ import android.view.MenuItem;
 
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.models.Chat;
+import com.s2m.maatwerkproject.models.Group;
 import com.s2m.maatwerkproject.ui.fragment.ChatListFragment;
 import com.s2m.maatwerkproject.ui.fragment.GroupListFragment;
 
+import org.parceler.Parcels;
+
 public class MainActivity extends AppCompatActivity
-implements ChatListFragment.OnChatSelectedInterface{
+implements ChatListFragment.OnChatSelectedInterface,
+GroupListFragment.OnGroupSelectedInterface{
+
+    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String CHAT_MODEL_KEY = "chat_model";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +85,14 @@ implements ChatListFragment.OnChatSelectedInterface{
     @Override
     public void onChatSelected(Chat chat) {
         Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra(Chat.CHAT_MODEL_KEY, Parcels.wrap(chat));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onGroupSelected(Group group) {
+        Intent intent = new Intent(this, GroupInfoActivity.class);
+        intent.putExtra(Group.GROUP_MODEL_KEY, Parcels.wrap(group));
         startActivity(intent);
     }
 }

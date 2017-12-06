@@ -1,9 +1,14 @@
 package com.s2m.maatwerkproject.models;
 
+import org.parceler.Parcel;
 
+@Parcel
 public class User {
     private String name;
     private Group[] groups;
+
+    public User() {
+    }
 
     public User(String name, Group[] groups) {
         this.name = name;

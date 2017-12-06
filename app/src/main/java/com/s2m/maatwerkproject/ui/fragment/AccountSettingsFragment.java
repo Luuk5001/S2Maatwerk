@@ -30,7 +30,10 @@ public class AccountSettingsFragment extends ListFragment{
         ButterKnife.bind(this, view);
         this.containerView = view;
 
-        setListAdapter(new VariableAndroidListItemAdapter(view.getContext(), AppSettings.getSettingsArray(Setting.SettingType.Account)));
+        Setting[] settings =  AppSettings.getSettingsArray(Setting.SettingType.Account);
+        settings[0].setCurrentSetting("Luuk5001@gmail.com");
+
+        setListAdapter(new VariableAndroidListItemAdapter(view.getContext(),settings));
 
         return view;
     }

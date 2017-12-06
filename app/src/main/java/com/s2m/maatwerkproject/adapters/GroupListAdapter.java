@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.models.Group;
 import com.s2m.maatwerkproject.models.User;
-import com.s2m.maatwerkproject.R;
+import com.s2m.maatwerkproject.ui.fragment.GroupListFragment;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,9 +20,11 @@ import butterknife.ButterKnife;
 public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.GroupListItemViewHolder> {
 
     private Group[] groups;
+    private final GroupListFragment.OnGroupSelectedInterface listener;
 
-    public GroupListAdapter(Group[] groups){
+    public GroupListAdapter(Group[] groups, GroupListFragment.OnGroupSelectedInterface listener){
         this.groups = groups;
+        this.listener = listener;
     }
 
     @Override
@@ -42,7 +45,8 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         return groups.length;
     }
 
-    public class GroupListItemViewHolder extends RecyclerView.ViewHolder {
+    public class GroupListItemViewHolder extends RecyclerView.ViewHolder
+    implements View.OnClickListener{
 
         @BindView(R.id.imageViewGroupListImage)
         ImageView imageViewGroupImage;
@@ -51,15 +55,19 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         @BindView(R.id.textViewGroupListUsers)
         TextView textViewGroupUsers;
 
-        public GroupListItemViewHolder(View itemView) {
+        private Group group;
+
+        GroupListItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
-        public void bindGroupListItem(Group group){
+        void bindGroupListItem(Group group){
             //TODO bind remaining data
             //TODO do not allow nulls in user array
             //TODO remove users own name from group users
+            this.group = group;
             textViewGroupUsers.setText("");
             textViewGroupName.setText(group.getName());
             if(group.getUsers() != null){
@@ -72,5 +80,14 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
                 textViewGroupUsers.setText(StringUtils.join(userNames, ", "));
             }
         }
+
+        @Override
+        public void onClick(View view) {
+            onGroupSelected(group);
+        }
+    }
+
+    private void onGroupSelected(Group group) {
+        listener.onGroupSelected(group);
     }
 }

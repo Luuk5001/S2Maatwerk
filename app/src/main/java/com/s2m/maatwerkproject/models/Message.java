@@ -1,10 +1,15 @@
 package com.s2m.maatwerkproject.models;
 
+import org.parceler.Parcel;
 
+@Parcel
 public class Message {
     private String text;
     private int timeStamp;
     private Group group;
+
+    public Message() {
+    }
 
     public Message(String text, int timeStamp, Group group) {
         this.text = text;

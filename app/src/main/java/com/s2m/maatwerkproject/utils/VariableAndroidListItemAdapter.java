@@ -57,6 +57,8 @@ public class VariableAndroidListItemAdapter extends BaseAdapter {
                 twoLineListItem = (TwoLineListItem) convertView;
             }
 
+
+
             TextView text1 = twoLineListItem.getText1();
             TextView text2 = twoLineListItem.getText2();
 
