@@ -15,7 +15,7 @@ import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.adapters.GroupListAdapter;
 import com.s2m.maatwerkproject.models.Group;
 import com.s2m.maatwerkproject.ui.activity.GroupInfoActivity;
-import com.s2m.maatwerkproject.OnGroupSelectedInterface;
+import com.s2m.maatwerkproject.IClickableGroup;
 import com.s2m.maatwerkproject.utils.EmptyRecyclerView;
 
 import org.parceler.Parcels;
@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 
 import static com.s2m.maatwerkproject.testData.groups;
 
-public class GroupListFragment extends Fragment implements OnGroupSelectedInterface {
+public class GroupListFragment extends Fragment implements IClickableGroup {
 
     @BindView(R.id.recyclerViewGroupList)
     EmptyRecyclerView recyclerView;
@@ -50,7 +50,7 @@ public class GroupListFragment extends Fragment implements OnGroupSelectedInterf
     }
 
     @Override
-    public void onGroupSelected(Group group) {
+    public void onClickGroupItem(Group group) {
         Intent intent = new Intent(getContext(), GroupInfoActivity.class);
         intent.putExtra(Group.GROUP_MODEL_KEY, Parcels.wrap(group));
         startActivity(intent);

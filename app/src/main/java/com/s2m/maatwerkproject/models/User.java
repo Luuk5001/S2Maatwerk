@@ -4,6 +4,7 @@ import org.parceler.Parcel;
 
 @Parcel
 public class User {
+    public static final String USER_MODEL_KEY = "user_model";
     private String name;
     private Group[] groups;
 

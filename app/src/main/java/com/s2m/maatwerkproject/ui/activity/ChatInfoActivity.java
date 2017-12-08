@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.s2m.maatwerkproject.OnGroupSelectedInterface;
+import com.s2m.maatwerkproject.IClickableGroup;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.adapters.GroupListAdapter;
 import com.s2m.maatwerkproject.models.Chat;
@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ChatInfoActivity extends AppCompatActivity implements OnGroupSelectedInterface {
+public class ChatInfoActivity extends AppCompatActivity implements IClickableGroup {
 
     private Chat chat;
 
@@ -60,7 +60,7 @@ public class ChatInfoActivity extends AppCompatActivity implements OnGroupSelect
     }
 
     @Override
-    public void onGroupSelected(Group group) {
+    public void onClickGroupItem(Group group) {
         Intent intent = new Intent(this, GroupShortInfoActivity.class);
         startActivity(intent);
     }

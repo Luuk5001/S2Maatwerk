@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.s2m.maatwerkproject.OnChatSelectedInterface;
+import com.s2m.maatwerkproject.IClickableChat;
 import com.s2m.maatwerkproject.adapters.ChatListAdapter;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.models.Chat;
@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 
 import static com.s2m.maatwerkproject.testData.chats;
 
-public class ChatListFragment extends Fragment implements OnChatSelectedInterface {
+public class ChatListFragment extends Fragment implements IClickableChat {
 
     @BindView(R.id.recyclerViewChatList)
     EmptyRecyclerView recyclerView;
@@ -50,7 +50,7 @@ public class ChatListFragment extends Fragment implements OnChatSelectedInterfac
     }
 
     @Override
-    public void onChatSelected(Chat chat) {
+    public void onClickChatItem(Chat chat) {
         Intent intent = new Intent(getContext(), ChatActivity.class);
         intent.putExtra(Chat.CHAT_MODEL_KEY, Parcels.wrap(chat));
         startActivity(intent);

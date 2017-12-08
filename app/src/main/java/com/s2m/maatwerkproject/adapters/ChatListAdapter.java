@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.models.Chat;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.models.Message;
-import com.s2m.maatwerkproject.OnChatSelectedInterface;
+import com.s2m.maatwerkproject.IClickableChat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,9 +20,9 @@ import butterknife.ButterKnife;
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListItemViewHolder> {
 
     private Chat[] chats;
-    private final OnChatSelectedInterface listener;
+    private final IClickableChat listener;
 
-    public ChatListAdapter(Chat[] chats, OnChatSelectedInterface listener){
+    public ChatListAdapter(Chat[] chats, IClickableChat listener){
         this.chats = chats;
         this.listener = listener;
     }
@@ -89,6 +89,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     }
 
     private void onChatSelected(Chat chat) {
-        listener.onChatSelected(chat);
+        listener.onClickChatItem(chat);
     }
 }
