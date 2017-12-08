@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
@@ -18,12 +20,16 @@ import org.parceler.Parcels;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener{
 
     @BindView(R.id.recyclerViewChatMessageList)
     EmptyRecyclerView recyclerView;
     @BindView(R.id.textViewNoMessages)
     TextView emptyView;
+    @BindView(R.id.toolbarChat)
+    Toolbar toolbar;
+
+    private Chat chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +37,14 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
-        Chat chat = Parcels.unwrap(getIntent().getParcelableExtra(Chat.CHAT_MODEL_KEY));
+        chat = Parcels.unwrap(getIntent().getParcelableExtra(Chat.CHAT_MODEL_KEY));
 
-        setTitle(chat.getName());
+        toolbar.setTitle(chat.getName());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setIcon(R.drawable.ic_launcher_background);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setOnClickListener(this);
 
         recyclerView.setEmptyView(emptyView);
         ChatMessageListAdapter chatMessageListAdapter = new ChatMessageListAdapter(chat.getMessages());
@@ -60,5 +71,12 @@ public class ChatActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(this, ChatInfoActivity.class);
+        intent.putExtra(Chat.CHAT_MODEL_KEY, Parcels.wrap(chat));
+        startActivity(intent);
     }
 }

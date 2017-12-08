@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".ui.activity.CreateNewGroupActivity">
         </activity>
-        <activity android:name=".ui.activity.ChatActivity">
+        <activity android:name=".ui.activity.ChatActivity" android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".ui.activity.ChatInfoActivity">
         </activity>

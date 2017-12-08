@@ -1,5 +1,6 @@
 package com.s2m.maatwerkproject.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,18 +14,18 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.adapters.GroupListAdapter;
 import com.s2m.maatwerkproject.models.Group;
+import com.s2m.maatwerkproject.ui.activity.GroupInfoActivity;
+import com.s2m.maatwerkproject.OnGroupSelectedInterface;
 import com.s2m.maatwerkproject.utils.EmptyRecyclerView;
+
+import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.s2m.maatwerkproject.testData.groups;
 
-public class GroupListFragment extends Fragment {
-
-    public interface OnGroupSelectedInterface{
-        void onGroupSelected(Group group);
-    }
+public class GroupListFragment extends Fragment implements OnGroupSelectedInterface {
 
     @BindView(R.id.recyclerViewGroupList)
     EmptyRecyclerView recyclerView;
@@ -34,12 +35,11 @@ public class GroupListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        OnGroupSelectedInterface listener = (OnGroupSelectedInterface) getActivity();
         View view = inflater.inflate(R.layout.fragment_group_list, container, false);
         ButterKnife.bind(this, view);
 
         recyclerView.setEmptyView(emptyView);
-        GroupListAdapter chatListAdapter = new GroupListAdapter(groups, listener);
+        GroupListAdapter chatListAdapter = new GroupListAdapter(groups, this);
         recyclerView.setAdapter(chatListAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -47,5 +47,12 @@ public class GroupListFragment extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         return view;
+    }
+
+    @Override
+    public void onGroupSelected(Group group) {
+        Intent intent = new Intent(getContext(), GroupInfoActivity.class);
+        intent.putExtra(Group.GROUP_MODEL_KEY, Parcels.wrap(group));
+        startActivity(intent);
     }
 }

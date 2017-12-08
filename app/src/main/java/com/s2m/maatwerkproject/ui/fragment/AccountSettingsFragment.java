@@ -31,7 +31,6 @@ public class AccountSettingsFragment extends ListFragment{
         this.containerView = view;
 
         Setting[] settings =  AppSettings.getSettingsArray(Setting.SettingType.Account);
-        settings[0].setCurrentSetting("Luuk5001@gmail.com");
 
         setListAdapter(new VariableAndroidListItemAdapter(view.getContext(),settings));
 

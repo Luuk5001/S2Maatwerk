@@ -1,9 +1,11 @@
 package com.s2m.maatwerkproject.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
@@ -14,6 +16,7 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class GroupInfoActivity extends AppCompatActivity {
 
@@ -42,5 +45,11 @@ public class GroupInfoActivity extends AppCompatActivity {
         textViewGroupName.setText(group.getName());
         textViewLocation.setText(group.getLocation());
         textViewUserCount.setText(String.format("%S Users", String.valueOf(group.getUsers().length)));
+    }
+
+    @OnClick(R.id.imageViewGroupInfoEditIcon)
+    public void onClickImageViewGroupInfoEditIcon(View view){
+        Intent intent = new Intent(this, EditGroupActivity.class);
+        startActivity(intent);
     }
 }

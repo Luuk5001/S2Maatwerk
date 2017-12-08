@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.models.Group;
 import com.s2m.maatwerkproject.models.User;
-import com.s2m.maatwerkproject.ui.fragment.GroupListFragment;
+import com.s2m.maatwerkproject.OnGroupSelectedInterface;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,9 +20,9 @@ import butterknife.ButterKnife;
 public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.GroupListItemViewHolder> {
 
     private Group[] groups;
-    private final GroupListFragment.OnGroupSelectedInterface listener;
+    private final OnGroupSelectedInterface listener;
 
-    public GroupListAdapter(Group[] groups, GroupListFragment.OnGroupSelectedInterface listener){
+    public GroupListAdapter(Group[] groups, OnGroupSelectedInterface listener){
         this.groups = groups;
         this.listener = listener;
     }
@@ -87,7 +87,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         }
     }
 
-    private void onGroupSelected(Group group) {
+    private void onGroupSelected(Group group){
         listener.onGroupSelected(group);
     }
 }
