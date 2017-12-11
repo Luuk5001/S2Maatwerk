@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MaatwerkProject</string>
+    <string name="facebook_application_id" translatable="false">190573131520597</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb190573131520597</string>
 </resources>

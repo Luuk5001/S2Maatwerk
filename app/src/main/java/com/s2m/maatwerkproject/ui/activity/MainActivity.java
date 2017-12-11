@@ -2,6 +2,7 @@ package com.s2m.maatwerkproject.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,48 +11,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.models.Chat;
-import com.s2m.maatwerkproject.models.Group;
 import com.s2m.maatwerkproject.ui.fragment.ChatListFragment;
 import com.s2m.maatwerkproject.ui.fragment.GroupListFragment;
 
-import org.parceler.Parcels;
+import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static final String CHAT_MODEL_KEY = "chat_model";
+    public static final int RC_SING_IN = 101;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.logo);
 
-        final ChatListFragment chatListFragment = new ChatListFragment();
-        final GroupListFragment groupListFragment = new GroupListFragment();
-
-        ViewPager viewPager = findViewById(R.id.viewPagerMain);
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return position == 0 ? chatListFragment : groupListFragment;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return position == 0 ? "Chats" : "Groups";
-            }
-
-            @Override
-            public int getCount() {
-                return 2;
-            }
-        });
-
-        TabLayout tabLayout = findViewById(R.id.tabLayoutMain);
-
-        tabLayout.setupWithViewPager(viewPager);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.addAuthStateListener(this);
     }
 
     @Override
@@ -78,5 +59,79 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if(user != null){
+            onSignedInInitialize(user.getDisplayName());
+            setContentView(R.layout.activity_main);
+            configureLayout();
+        }
+        else{
+            onSingedOutCleanup();
+            startActivityForResult(AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(
+                Arrays.asList(
+                new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()))
+                .build(),
+                RC_SING_IN);
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case RC_SING_IN:
+                if(resultCode == RESULT_OK){
+
+                }
+                else{
+                    finish();
+                }
+                break;
+        }
+    }
+
+    private void configureLayout(){
+        final ChatListFragment chatListFragment = new ChatListFragment();
+        final GroupListFragment groupListFragment = new GroupListFragment();
+
+        ViewPager viewPager = findViewById(R.id.viewPagerMain);
+        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return position == 0 ? chatListFragment : groupListFragment;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return position == 0 ? "Chats" : "Groups";
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        });
+
+        TabLayout tabLayout = findViewById(R.id.tabLayoutMain);
+
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void onSignedInInitialize(String displayName) {
+
+    }
+
+    private void onSingedOutCleanup() {
+        
     }
 }

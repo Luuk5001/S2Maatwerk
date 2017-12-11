@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "618085597188",
+    "firebase_url": "https://maatwerks2.firebaseio.com",
+    "project_id": "maatwerks2",
+    "storage_bucket": "maatwerks2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618085597188:android:45ed33c429157166",
+        "android_client_info": {
+          "package_name": "com.s2m.maatwerkproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618085597188-pc6lktvdmkncgs34e8873a68jt3unnoa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.s2m.maatwerkproject",
+            "certificate_hash": "95d9ad47bae040a2fa6604ccd07f4c46614cc865"
+          }
+        },
+        {
+          "client_id": "618085597188-5hbqb92qv460bc2sviqil769bb1b79f7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.s2m.maatwerkproject",
+            "certificate_hash": "3c4f275adca8de267de69349a37bf588c960e120"
+          }
+        },
+        {
+          "client_id": "618085597188-6jkeqqgkuamthbp82dljhab2j5a1piam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTPOq9OMVFapE7LxFI8usO35n41cFZYL4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618085597188-6jkeqqgkuamthbp82dljhab2j5a1piam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
