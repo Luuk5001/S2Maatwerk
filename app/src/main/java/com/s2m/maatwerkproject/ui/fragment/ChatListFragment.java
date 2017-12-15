@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.IClickableChat;
 import com.s2m.maatwerkproject.adapters.ChatListAdapter;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.models.Chat;
+import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.ui.activity.ChatActivity;
 import com.s2m.maatwerkproject.utils.EmptyRecyclerView;
 

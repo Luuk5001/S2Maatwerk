@@ -1,7 +1,6 @@
 package com.s2m.maatwerkproject.adapters;
 
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,10 @@ import android.widget.TextView;
 
 import com.s2m.maatwerkproject.ICheckableGroup;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.models.Group;
+import com.s2m.maatwerkproject.data.models.Group;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class PickGroupListAdapter extends RecyclerView.Adapter<PickGroupListAdapter.PickGroupListItemViewHolder> {
 

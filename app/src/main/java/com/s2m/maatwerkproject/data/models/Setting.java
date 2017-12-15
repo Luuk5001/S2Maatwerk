@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.models;
+package com.s2m.maatwerkproject.data.models;
 
 import com.s2m.maatwerkproject.utils.VariableAndroidListItemAdapter;
 

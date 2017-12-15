@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.s2m.maatwerkproject.R;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final int RC_SING_IN = 101;
     private FirebaseAuth firebaseAuth;
+    private boolean singInActivityCalled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                 intent = new Intent(this, CreateNewGroupActivity.class);
                 startActivity(intent);
                 break;
+            case  R.id.menuMainSingOut:
+                singOut();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -64,25 +70,23 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if(user != null){
-            onSignedInInitialize(user.getDisplayName());
-            setContentView(R.layout.activity_main);
-            configureLayout();
-        }
-        else{
+        if(user == null && !singInActivityCalled){
+            singInActivityCalled = true;
             onSingedOutCleanup();
             startActivityForResult(AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(
-                Arrays.asList(
-                new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
-                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
-                new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()))
-                .build(),
-                RC_SING_IN);
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(
+                                    Arrays.asList(
+                                            new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                                            new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
+                                            new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()))
+                            .build(),
+                    RC_SING_IN);
         }
-
+        else if(user != null){
+            onSignedInInitialize(user.getDisplayName());
+        }
     }
 
     @Override
@@ -127,11 +131,17 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void onSignedInInitialize(String displayName) {
+    private void singOut(){
+        singInActivityCalled = false;
+        AuthUI.getInstance().signOut(this);
+    }
 
+    private void onSignedInInitialize(String displayName) {
+        setContentView(R.layout.activity_main);
+        configureLayout();
     }
 
     private void onSingedOutCleanup() {
-        
+        setContentView(R.layout.logo);
     }
 }

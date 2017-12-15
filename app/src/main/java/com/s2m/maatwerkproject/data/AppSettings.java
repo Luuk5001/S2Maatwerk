@@ -1,9 +1,8 @@
 package com.s2m.maatwerkproject.data;
 
-import com.s2m.maatwerkproject.models.Setting;
+import com.s2m.maatwerkproject.data.models.Setting;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public final class AppSettings {
 

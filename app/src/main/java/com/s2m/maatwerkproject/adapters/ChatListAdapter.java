@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.s2m.maatwerkproject.models.Chat;
+import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.models.Message;
+import com.s2m.maatwerkproject.data.models.Message;
 import com.s2m.maatwerkproject.IClickableChat;
 
 import butterknife.BindView;

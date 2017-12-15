@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.TwoLineListItem;
 
-import com.s2m.maatwerkproject.models.Setting;
+import com.s2m.maatwerkproject.data.models.Setting;
 
 public class VariableAndroidListItemAdapter extends BaseAdapter {
 

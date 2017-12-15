@@ -1,8 +1,6 @@
 package com.s2m.maatwerkproject;
 
-import android.widget.CheckBox;
-
-import com.s2m.maatwerkproject.models.Group;
+import com.s2m.maatwerkproject.data.models.Group;
 
 public interface ICheckableGroup {
     void onCheckPickGroupItem(Group group);

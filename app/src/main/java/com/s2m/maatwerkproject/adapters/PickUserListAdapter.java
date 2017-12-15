@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.s2m.maatwerkproject.ICheckableUser;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.models.User;
+import com.s2m.maatwerkproject.data.models.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

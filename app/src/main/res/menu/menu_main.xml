@@ -17,4 +17,7 @@
         android:title="Search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuMainSingOut"
+        android:title="Sing out" />
 </menu>

@@ -16,7 +16,7 @@ import com.s2m.maatwerkproject.ui.activity.ChangePasswordActivity;
 import com.s2m.maatwerkproject.ui.activity.ChangePhoneNumberActivity;
 import com.s2m.maatwerkproject.utils.VariableAndroidListItemAdapter;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.models.Setting;
+import com.s2m.maatwerkproject.data.models.Setting;
 import butterknife.ButterKnife;
 
 public class AccountSettingsFragment extends ListFragment{

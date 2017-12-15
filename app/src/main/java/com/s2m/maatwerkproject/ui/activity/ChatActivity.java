@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.adapters.ChatMessageListAdapter;
-import com.s2m.maatwerkproject.models.Chat;
+import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.utils.EmptyRecyclerView;
 
 import org.parceler.Parcels;

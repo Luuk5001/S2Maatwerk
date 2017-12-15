@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.IClickableGroup;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.adapters.GroupListAdapter;
-import com.s2m.maatwerkproject.models.Chat;
-import com.s2m.maatwerkproject.models.Group;
+import com.s2m.maatwerkproject.data.models.Chat;
+import com.s2m.maatwerkproject.data.models.Group;
 import org.parceler.Parcels;
 
 import butterknife.BindView;

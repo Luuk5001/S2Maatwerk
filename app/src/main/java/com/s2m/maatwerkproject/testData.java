@@ -1,10 +1,10 @@
 package com.s2m.maatwerkproject;
 
 
-import com.s2m.maatwerkproject.models.Chat;
-import com.s2m.maatwerkproject.models.Group;
-import com.s2m.maatwerkproject.models.Message;
-import com.s2m.maatwerkproject.models.User;
+import com.s2m.maatwerkproject.data.models.Chat;
+import com.s2m.maatwerkproject.data.models.Group;
+import com.s2m.maatwerkproject.data.models.Message;
+import com.s2m.maatwerkproject.data.models.User;
 
 public class testData {
     public static User[] users = new User[]{
