@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject;
+package com.s2m.maatwerkproject.ui.adapters;
 
 import com.s2m.maatwerkproject.data.models.User;
 

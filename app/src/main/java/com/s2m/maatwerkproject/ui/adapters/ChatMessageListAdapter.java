@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.adapters;
+package com.s2m.maatwerkproject.ui.adapters;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Message;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -18,9 +20,9 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final int SENT_MESSAGE = 0;
     private static final int RECEIVED_MESSAGE = 1;
 
-    private Message[] messages;
+    private List<Message> messages;
 
-    public ChatMessageListAdapter(Message[] messages){
+    public ChatMessageListAdapter(List<Message> messages){
         this.messages = messages;
     }
 
@@ -48,11 +50,11 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         switch (holder.getItemViewType()) {
             case SENT_MESSAGE:
                 ChatMessageListAdapter.SentMessageViewHolder sentMessageViewHolder = (ChatMessageListAdapter.SentMessageViewHolder) holder;
-                sentMessageViewHolder.bindMessage(messages[position]);
+                sentMessageViewHolder.bindMessage(messages.get(position));
                 break;
             case RECEIVED_MESSAGE:
                 ChatMessageListAdapter.ReceivedMessageViewHolder receivedMessageViewHolder = (ChatMessageListAdapter.ReceivedMessageViewHolder) holder;
-                receivedMessageViewHolder.bindMessage(messages[position]);
+                receivedMessageViewHolder.bindMessage(messages.get(position));
                 break;
             default:
                 break;
@@ -61,15 +63,15 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        return messages.length;
+        return messages == null ? 0 : messages.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        final String groupID = "Group1";
+        final String groupID = "group1";
         //TODO throw correct exception on default
         //TODO get right group by ID
-        switch (messages[position].getGroup().getName()){
+        switch (messages.get(position).getGroup().getName()){
             case groupID:
                 return SENT_MESSAGE;
             default:
@@ -91,7 +93,6 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public SentMessageViewHolder(View itemView) {
             super(itemView);
-            //ButterKnife.bind(this, itemView);
             textViewMessage = itemView.findViewById(R.id.textViewChatMessageSentContent);
             textViewTime = itemView.findViewById(R.id.textViewChatMessageSentTime);
         }
@@ -99,7 +100,7 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public void bindMessage(Message message){
             //TODO convert timestamp to actual time
             textViewMessage.setText(message.getText());
-            textViewTime.setText(String.valueOf(message.getTimeStamp()));
+            textViewTime.setText(message.getDateTimeString(itemView.getContext()));
         }
     }
 
@@ -121,7 +122,7 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             //TODO convert timestamp to actual time
             textViewGroupName.setText(message.getGroup().getName());
             textViewMessage.setText(message.getText());
-            textViewTime.setText(String.valueOf(message.getTimeStamp()));
+            textViewTime.setText(message.getDateTimeString(itemView.getContext()));
         }
     }
 }

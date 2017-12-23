@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.adapters.UserListAdapter;
+import com.s2m.maatwerkproject.ui.adapters.UserListAdapter;
 import com.s2m.maatwerkproject.data.models.Group;
 
 import org.parceler.Parcels;

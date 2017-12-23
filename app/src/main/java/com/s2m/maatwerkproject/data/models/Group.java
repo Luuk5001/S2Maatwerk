@@ -1,5 +1,7 @@
 package com.s2m.maatwerkproject.data.models;
 
+import android.graphics.Bitmap;
+
 import org.parceler.Parcel;
 
 @Parcel
@@ -7,6 +9,7 @@ public class Group {
 
     public static final String GROUP_MODEL_KEY = "group_model";
 
+    private String id;
     private String name;
     private String description;
     private String location;

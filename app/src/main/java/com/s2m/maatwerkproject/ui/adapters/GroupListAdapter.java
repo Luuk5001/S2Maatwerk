@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.adapters;
+package com.s2m.maatwerkproject.ui.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,19 +10,20 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.models.User;
-import com.s2m.maatwerkproject.IClickableGroup;
 
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.GroupListItemViewHolder> {
 
-    private Group[] groups;
+    private List<Group> groups;
     private final IClickableGroup listener;
 
-    public GroupListAdapter(Group[] groups, IClickableGroup listener){
+    public GroupListAdapter(List<Group> groups, IClickableGroup listener){
         this.groups = groups;
         this.listener = listener;
     }
@@ -37,12 +38,12 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
 
     @Override
     public void onBindViewHolder(GroupListAdapter.GroupListItemViewHolder holder, int position) {
-        holder.bindGroupListItem(groups[position]);
+        holder.bindGroupListItem(groups.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return groups.length;
+        return groups == null ? 0 : groups.size();
     }
 
     public class GroupListItemViewHolder extends RecyclerView.ViewHolder

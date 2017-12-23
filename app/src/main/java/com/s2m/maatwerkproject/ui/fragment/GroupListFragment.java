@@ -12,18 +12,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.adapters.GroupListAdapter;
+import com.s2m.maatwerkproject.ui.adapters.GroupListAdapter;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.ui.activity.GroupInfoActivity;
-import com.s2m.maatwerkproject.IClickableGroup;
+import com.s2m.maatwerkproject.ui.adapters.IClickableGroup;
 import com.s2m.maatwerkproject.utils.EmptyRecyclerView;
 
 import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.s2m.maatwerkproject.testData.groups;
 
 public class GroupListFragment extends Fragment implements IClickableGroup {
 
@@ -39,7 +37,7 @@ public class GroupListFragment extends Fragment implements IClickableGroup {
         ButterKnife.bind(this, view);
 
         recyclerView.setEmptyView(emptyView);
-        GroupListAdapter chatListAdapter = new GroupListAdapter(groups, this);
+        GroupListAdapter chatListAdapter = new GroupListAdapter(null, this);
         recyclerView.setAdapter(chatListAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);

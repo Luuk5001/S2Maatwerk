@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.adapters;
+package com.s2m.maatwerkproject.ui.adapters;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.s2m.maatwerkproject.ICheckableGroup;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Group;
 

@@ -1,22 +1,39 @@
 package com.s2m.maatwerkproject.data.models;
 
+import android.graphics.Bitmap;
+import android.location.Location;
+import android.media.MediaExtractor;
+
 import org.parceler.Parcel;
+
+import java.util.List;
 
 @Parcel
 public class Chat {
     public static final String CHAT_MODEL_KEY = "chat_model";
 
+    private String id;
     private String name;
-    private Group[] groups;
-    private Message[] messages;
+    private Bitmap picture;
+    private List<Group> groups;
+    private List<Message> messages;
 
     public Chat() {
     }
 
-    public Chat(String name, Group[] groups, Message[] messages) {
+    public Chat(String name, Bitmap picture, List<Group> groups, List<Message> messages) {
         this.name = name;
+        this.picture = picture;
         this.groups = groups;
         this.messages = messages;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -27,19 +44,29 @@ public class Chat {
         this.name = name;
     }
 
-    public Group[] getGroups() {
+    public Bitmap getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Bitmap picture) {
+        this.picture = picture;
+    }
+
+    public List<Group> getGroups() {
         return groups;
     }
 
-    public void setGroups(Group[] groups) {
-        this.groups = groups;
-    }
-
-    public Message[] getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(Message[] messages) {
-        this.messages = messages;
+    public void addGroup(Group group) {
+        //TODO implement
+        throw new UnsupportedOperationException();
+    }
+
+    public void removeGroup(Group group){
+        //TODO implement
+        throw new UnsupportedOperationException();
     }
 }

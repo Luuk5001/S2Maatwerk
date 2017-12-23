@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.adapters;
+package com.s2m.maatwerkproject.ui.adapters;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -12,17 +12,18 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Message;
-import com.s2m.maatwerkproject.IClickableChat;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListItemViewHolder> {
 
-    private Chat[] chats;
+    private List<Chat> chats;
     private final IClickableChat listener;
 
-    public ChatListAdapter(Chat[] chats, IClickableChat listener){
+    public ChatListAdapter(List<Chat> chats, IClickableChat listener){
         this.chats = chats;
         this.listener = listener;
     }
@@ -36,12 +37,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     @Override
     public void onBindViewHolder(ChatListItemViewHolder holder, int position) {
-        holder.bindChatListItem(chats[position]);
+        holder.bindChatListItem(chats.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return chats.length;
+        return chats.size();
     }
 
     class ChatListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -73,10 +74,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
             textViewChatName.setText(chat.getName());
             if(chat.getGroups() != null){
-                textViewGroupName.setText(chat.getGroups()[0].getName());
+                textViewGroupName.setText(chat.getGroups().get(0).getName());
             }
             if(chat.getMessages() != null){
-                Message message = chat.getMessages()[0];
+                Message message = chat.getMessages().get(0);
                 textViewLastMessage.setText(Html
                         .fromHtml("<b>" + message.getGroup().getName() + ":</b> " + message.getText()));
             }
@@ -90,5 +91,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     private void onChatSelected(Chat chat) {
         listener.onClickChatItem(chat);
+    }
+
+    public void addItem(int position, Chat chat){
+        chats.add(position, chat);
+        notifyItemInserted(position);
     }
 }

@@ -32,35 +32,36 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewGroupShortInfoPicture"/>
 
     <TextView
-        android:id="@+id/textViewShortGroupInfoDescription"
+        android:id="@+id/textViewGroupShortInfoDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        tools:text="Group description..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGroupShortInfoName"/>
+        app:layout_constraintTop_toBottomOf="@+id/textViewGroupShortInfoName"
+        tools:text="Group description..." />
 
     <TextView
-        android:id="@+id/textViewShortGroupInfoLocation"
+        android:id="@+id/textViewGroupShortInfoLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewShortGroupInfoDescription"
-        tools:text="Location..."/>
+        app:layout_constraintTop_toBottomOf="@+id/textViewGroupShortInfoDescription"
+        tools:text="Location..."
+        android:layout_marginLeft="8dp" />
 
     <ImageView
-        android:id="@+id/imageViewShortGroupInfoMapIcon"
+        android:id="@+id/imageViewGroupShortInfoMapIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewShortGroupInfoLocation"
-        app:layout_constraintStart_toEndOf="@+id/textViewShortGroupInfoLocation"
-        app:layout_constraintTop_toBottomOf="@+id/textViewShortGroupInfoDescription"
-        app:srcCompat="@android:drawable/ic_dialog_map"/>
+        app:layout_constraintBottom_toBottomOf="@+id/textViewGroupShortInfoLocation"
+        app:layout_constraintStart_toEndOf="@+id/textViewGroupShortInfoLocation"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGroupShortInfoDescription"
+        app:srcCompat="@android:drawable/ic_dialog_map" />
 </android.support.constraint.ConstraintLayout>

@@ -1,43 +1,53 @@
 package com.s2m.maatwerkproject.data.models;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.format.DateFormat;
+
 import org.parceler.Parcel;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @Parcel
 public class Message {
-    private String text;
+
+    private int id;
     private int timeStamp;
+    private String text;
     private Group group;
 
     public Message() {
     }
 
-    public Message(String text, int timeStamp, Group group) {
+    public Message(int timeStamp, String text, Group group) {
         this.text = text;
         this.timeStamp = timeStamp;
         this.group = group;
     }
 
-    public String getText() {
-        return text;
+    public int getId() {
+        return id;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(int timeStamp) {
-        this.timeStamp = timeStamp;
+    public String getText() {
+        return text;
     }
 
     public Group getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public String getDateTimeString(Context context){
+        Date date = new Date(timeStamp * 1000L);
+        return android.text.format.DateFormat.getMediumDateFormat(context).format(date) + " @ " + android.text.format.DateFormat.getTimeFormat(context).format(date);
     }
 }

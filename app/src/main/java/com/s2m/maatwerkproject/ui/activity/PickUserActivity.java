@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.s2m.maatwerkproject.ICheckableUser;
+import com.s2m.maatwerkproject.ui.adapters.ICheckableUser;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.adapters.PickUserListAdapter;
+import com.s2m.maatwerkproject.ui.adapters.PickUserListAdapter;
 import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.testData;
 import com.s2m.maatwerkproject.utils.EmptyRecyclerView;

@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.adapters.ChatMessageListAdapter;
+import com.s2m.maatwerkproject.ui.adapters.ChatMessageListAdapter;
 import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.utils.EmptyRecyclerView;
 
@@ -19,6 +19,7 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -78,5 +79,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, ChatInfoActivity.class);
         intent.putExtra(Chat.CHAT_MODEL_KEY, Parcels.wrap(chat));
         startActivity(intent);
+    }
+
+    @OnClick(R.id.imageViewViewChatSendMessage)
+    public void onClickImageViewViewChatSendMessage(View view){
+
     }
 }
