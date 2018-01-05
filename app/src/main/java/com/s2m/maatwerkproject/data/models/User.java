@@ -1,19 +1,33 @@
 package com.s2m.maatwerkproject.data.models;
 
+import com.google.firebase.database.Exclude;
+
 import org.parceler.Parcel;
 
 @Parcel
 public class User {
+
     public static final String USER_MODEL_KEY = "user_model";
+
+    private String id;
     private String name;
-    private Group[] groups;
 
     public User() {
     }
 
-    public User(String name, Group[] groups) {
+    public User(String id, String name) {
+        this.id = id;
         this.name = name;
-        this.groups = groups;
+    }
+
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    @Exclude
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -22,13 +36,5 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Group[] getGroups() {
-        return groups;
-    }
-
-    public void setGroups(Group[] groups) {
-        this.groups = groups;
     }
 }

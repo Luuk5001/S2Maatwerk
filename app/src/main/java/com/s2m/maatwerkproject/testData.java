@@ -20,11 +20,4 @@ public class testData {
             new User("User7", null),
             new User("User8", null),
             new User("User9", null)};
-    public static Group[] groups = new Group[]{
-            new Group("Group1", null, null, new User[]{users[0], users[1], users[2]}),
-            new Group("Group2", null, null, new User[]{users[3], users[4], users[5]}),
-            new Group("Group3", null, null, new User[]{users[6], users[7], users[8]}),
-            new Group("Group4", null, null, new User[]{users[8], users[3], users[4]}),
-            new Group("Group5", null, null, new User[]{users[6], users[0], users[5]})
-    };
-}
+    }

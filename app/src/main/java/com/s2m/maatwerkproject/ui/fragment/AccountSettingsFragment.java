@@ -14,7 +14,7 @@ import com.s2m.maatwerkproject.data.AppSettings;
 import com.s2m.maatwerkproject.ui.activity.ChangeEmailActivity;
 import com.s2m.maatwerkproject.ui.activity.ChangePasswordActivity;
 import com.s2m.maatwerkproject.ui.activity.ChangePhoneNumberActivity;
-import com.s2m.maatwerkproject.utils.VariableAndroidListItemAdapter;
+import com.s2m.maatwerkproject.ui.adapter.VariableAndroidListItemAdapter;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Setting;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.ui.adapters;
+package com.s2m.maatwerkproject.ui.adapter;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -72,6 +72,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             textViewGroupName.setText("");
             textViewLastMessage.setText("");
 
+            /*
             textViewChatName.setText(chat.getName());
             if(chat.getGroups() != null){
                 textViewGroupName.setText(chat.getGroups().get(0).getName());
@@ -81,6 +82,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
                 textViewLastMessage.setText(Html
                         .fromHtml("<b>" + message.getGroup().getName() + ":</b> " + message.getText()));
             }
+            */
         }
 
         @Override

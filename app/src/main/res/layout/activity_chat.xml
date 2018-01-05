@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/recyclerViewChatMessageList" />
 
-    <com.s2m.maatwerkproject.utils.EmptyRecyclerView
+    <com.s2m.maatwerkproject.ui.view.EmptyRecyclerView
         android:id="@+id/recyclerViewChatMessageList"
         android:layout_width="0dp"
         android:layout_height="0dp"

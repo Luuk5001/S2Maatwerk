@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.ui.adapters;
+package com.s2m.maatwerkproject.ui.adapter;
 
 import com.s2m.maatwerkproject.data.models.Group;
 

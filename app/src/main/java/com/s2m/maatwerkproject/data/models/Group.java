@@ -1,8 +1,11 @@
 package com.s2m.maatwerkproject.data.models;
 
-import android.graphics.Bitmap;
+import com.google.firebase.database.Exclude;
 
 import org.parceler.Parcel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Parcel
 public class Group {
@@ -13,16 +16,27 @@ public class Group {
     private String name;
     private String description;
     private String location;
-    private User[] users;
+    private List<Group> chats;
+    private List<User> users;
 
     public Group() {
     }
 
-    public Group(String name, String description, String location, User[] users) {
+    public Group(String name, String description, String location, List<User> users) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.users = users;
+    }
+
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    @Exclude
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -49,11 +63,28 @@ public class Group {
         this.location = location;
     }
 
-    public User[] getUsers() {
+    @Exclude
+    public List<Group> getChats() {
+        return chats;
+    }
+
+    public void setChats(List<Group> chats) {
+        this.chats = chats;
+    }
+
+    @Exclude
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(User[] users) {
+    public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public void addUser(User user){
+        if(users == null){
+            users = new ArrayList<>();
+        }
+        users.add(user);
     }
 }

@@ -8,5 +8,5 @@ public interface IBaseRepository<T> {
 
 	void delete(T entity);
 
-	T getById(String id);
+	void getById(String id, String callbackKey);
 }

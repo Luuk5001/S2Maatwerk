@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.s2m.maatwerkproject">
+    package="com.s2m.maatwerkproject">
 
     <application
         android:allowBackup="true"
@@ -9,41 +9,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        <activity android:name=".ui.activity.SingInActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.CreateNewChatActivity">
-        </activity>
-        <activity android:name=".ui.activity.CreateNewGroupActivity">
-        </activity>
-        <activity android:name=".ui.activity.ChatActivity" android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".ui.activity.ChatInfoActivity">
-        </activity>
-        <activity android:name=".ui.activity.GroupShortInfoActivity">
-        </activity>
-        <activity android:name=".ui.activity.EditChatActivity">
-        </activity>
-        <activity android:name=".ui.activity.PickGroupActivity">
-        </activity>
-        <activity android:name=".ui.activity.GroupInfoActivity">
-        </activity>
-        <activity android:name=".ui.activity.EditGroupActivity">
-        </activity>
-        <activity android:name=".ui.activity.PickUserActivity">
-        </activity>
-        <activity android:name=".ui.activity.SettingsActivity">
-        </activity>
-        <activity android:name=".ui.activity.ChangeEmailActivity">
-        </activity>
-        <activity android:name=".ui.activity.ChangePasswordActivity">
-        </activity>
-        <activity android:name=".ui.activity.ChangePhoneNumberActivity">
-        </activity>
+        <activity android:name=".ui.activity.MainActivity"/>
+        <activity android:name=".ui.activity.CreateNewChatActivity" />
+        <activity android:name=".ui.activity.CreateNewGroupActivity" />
+        <activity
+            android:name=".ui.activity.ChatActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activity.ChatInfoActivity" />
+        <activity android:name=".ui.activity.GroupShortInfoActivity" />
+        <activity android:name=".ui.activity.EditChatActivity" />
+        <activity android:name=".ui.activity.PickGroupActivity" />
+        <activity android:name=".ui.activity.GroupInfoActivity" />
+        <activity android:name=".ui.activity.EditGroupActivity" />
+        <activity android:name=".ui.activity.PickUserActivity" />
+        <activity android:name=".ui.activity.SettingsActivity" />
+        <activity android:name=".ui.activity.ChangeEmailActivity" />
+        <activity android:name=".ui.activity.ChangePasswordActivity" />
+        <activity android:name=".ui.activity.ChangePhoneNumberActivity" />
     </application>
 
 </manifest>

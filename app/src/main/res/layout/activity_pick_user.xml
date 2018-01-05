@@ -31,7 +31,7 @@
             tools:text="Picked user; Picked user" />
     </LinearLayout>
 
-    <com.s2m.maatwerkproject.utils.EmptyRecyclerView
+    <com.s2m.maatwerkproject.ui.view.EmptyRecyclerView
         android:id="@+id/recyclerViewPickUser"
         android:layout_width="0dp"
         android:layout_height="0dp"

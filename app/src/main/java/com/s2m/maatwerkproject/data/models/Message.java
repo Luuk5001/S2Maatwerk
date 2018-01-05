@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.format.DateFormat;
 
+import com.google.firebase.database.Exclude;
+
 import org.parceler.Parcel;
 
 import java.util.Calendar;
@@ -13,28 +15,30 @@ import java.util.Date;
 public class Message {
 
     private int id;
-    private int timeStamp;
+    private long timeStamp;
     private String text;
     private Group group;
 
     public Message() {
     }
 
-    public Message(int timeStamp, String text, Group group) {
+    public Message(long timeStamp, String text, Group group) {
         this.text = text;
         this.timeStamp = timeStamp;
         this.group = group;
     }
 
+    @Exclude
     public int getId() {
         return id;
     }
 
+    @Exclude
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 

@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.s2m.maatwerkproject.ui.adapters.IClickableGroup;
+import com.s2m.maatwerkproject.ui.adapter.IClickableGroup;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.ui.adapters.GroupListAdapter;
+import com.s2m.maatwerkproject.ui.adapter.GroupListAdapter;
 import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.data.models.Group;
 import org.parceler.Parcels;
@@ -43,9 +43,10 @@ public class ChatInfoActivity extends AppCompatActivity implements IClickableGro
         chat = Parcels.unwrap(getIntent().getParcelableExtra(Chat.CHAT_MODEL_KEY));
 
         textViewChatName.setText(chat.getName());
-        textViewGroupCount.setText(String.format("%S Groups", chat.getGroups().size()));
+        //TODO update this
+        //textViewGroupCount.setText(String.format("%S Groups", chat.getGroups().size()));
 
-        GroupListAdapter groupListAdapter = new GroupListAdapter(chat.getGroups(), this);
+        GroupListAdapter groupListAdapter = new GroupListAdapter(null, this);
         recyclerView.setAdapter(groupListAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);

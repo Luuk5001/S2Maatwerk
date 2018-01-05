@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.ui.adapters;
+package com.s2m.maatwerkproject.ui.adapter;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -10,14 +10,16 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.User;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserListItemViewHolder> {
 
-    private User[] users;
+    private List<User> users;
 
-    public UserListAdapter(User[] users){
+    public UserListAdapter(List<User> users){
         this.users = users;
     }
 
@@ -30,12 +32,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
 
     @Override
     public void onBindViewHolder(UserListAdapter.UserListItemViewHolder holder, int position) {
-        holder.bindUser(users[position]);
+        holder.bindUser(users.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return users.length;
+        return users.size();
     }
 
     class UserListItemViewHolder extends RecyclerView.ViewHolder {
@@ -53,7 +55,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
 
         void bindUser(User user){
             textViewUserName.setText(user.getName());
-            textViewUserId.setText(user.getName());
+            textViewUserId.setText(user.getId());
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.utils;
+package com.s2m.maatwerkproject.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

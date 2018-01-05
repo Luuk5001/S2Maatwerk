@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.ui.adapters;
+package com.s2m.maatwerkproject.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.GroupListItemViewHolder> {
+public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.GroupListItemViewHolder> implements IUpdatableAdapter<Group> {
 
     private List<Group> groups;
     private final IClickableGroup listener;
@@ -44,6 +44,24 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
     @Override
     public int getItemCount() {
         return groups == null ? 0 : groups.size();
+    }
+
+    @Override
+    public void refreshData(List<Group> data) {
+        groups.clear();
+        groups.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void addItem(Group item) {
+        if(groups.contains(item)){
+            groups.set(groups.indexOf(item), item);
+        }
+        else{
+            groups.add(item);
+        }
+        notifyDataSetChanged();
     }
 
     public class GroupListItemViewHolder extends RecyclerView.ViewHolder
@@ -73,7 +91,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
             textViewGroupName.setText(group.getName());
             if(group.getUsers() != null){
                 int i = 0;
-                String[] userNames = new String[group.getUsers().length];
+                String[] userNames = new String[group.getUsers().size()];
                 for(User user : group.getUsers()){
                     userNames[i] = user.getName();
                     i++;

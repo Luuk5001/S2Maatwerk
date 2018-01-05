@@ -5,31 +5,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.s2m.maatwerkproject.ui.adapters.ICheckableUser;
+import com.s2m.maatwerkproject.data.repository.IRepoCallback;
+import com.s2m.maatwerkproject.data.repository.UserRepository;
+import com.s2m.maatwerkproject.ui.adapter.ICheckableUser;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.ui.adapters.PickUserListAdapter;
+import com.s2m.maatwerkproject.ui.adapter.PickUserListAdapter;
 import com.s2m.maatwerkproject.data.models.User;
-import com.s2m.maatwerkproject.testData;
-import com.s2m.maatwerkproject.utils.EmptyRecyclerView;
+import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PickUserActivity extends AppCompatActivity implements ICheckableUser {
+public class PickUserActivity extends AppCompatActivity implements ICheckableUser, IRepoCallback<User> {
 
-    //TODO get users that user searched
-    private User[] users = testData.users;
-    private ArrayList<User> selectedUsers;
+    public static final int USER_REQUEST_CODE = 101;
 
     @BindView(R.id.recyclerViewPickUser)
     EmptyRecyclerView recyclerView;
@@ -38,24 +39,51 @@ public class PickUserActivity extends AppCompatActivity implements ICheckableUse
     @BindView(R.id.textViewPickedUsers)
     TextView textViewPickedUsers;
 
+    private List<User> users;
+    private ArrayList<User> selectedUsers;
+    private UserRepository userRepo;
+    private PickUserListAdapter pickUserListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_user);
         ButterKnife.bind(this);
 
+        users = new ArrayList<>();
         selectedUsers = new ArrayList<>();
 
+        userRepo = new UserRepository(this);
+        userRepo.searchUsers(null);
+
+        pickUserListAdapter = new PickUserListAdapter(users, this);
+
         recyclerView.setEmptyView(emptyView);
-        PickUserListAdapter pickGroupListAdapter = new PickUserListAdapter(users, this);
-        recyclerView.setAdapter(pickGroupListAdapter);
+        recyclerView.setAdapter(pickUserListAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    private void updateTextViewPickedGroups() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return true;
+    }
+
+    @Override
+    public void onCheckPickUserItem(User user) {
+        if(selectedUsers.contains(user)){
+            selectedUsers.remove(user);
+        }
+        else{
+            selectedUsers.add(user);
+        }
+        updateTextViewPickedUsers();
+    }
+
+    private void updateTextViewPickedUsers() {
         int i = 0;
         String[] userNames = new String[selectedUsers.size()];
         for (User user : selectedUsers){
@@ -72,20 +100,29 @@ public class PickUserActivity extends AppCompatActivity implements ICheckableUse
         }
         else{
             Intent data = new Intent();
-            data.putExtra(User.USER_MODEL_KEY, Parcels.wrap(selectedUsers));
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(User.USER_MODEL_KEY, Parcels.wrap(selectedUsers));
+            data.putExtras(bundle);
             setResult(RESULT_OK, data);
             finish();
         }
     }
 
     @Override
-    public void onCheckPickUserItem(User user) {
-        if(selectedUsers.contains(user)){
-            selectedUsers.remove(user);
+    public void single(User obj, String callbackKey) {
+
+    }
+
+    @Override
+    public void list(List<User> obj, String callbackKey) {
+        if(callbackKey.equals(UserRepository.KEY_SEARCH_USERS)){
+            users = obj;
+            pickUserListAdapter.refreshData(users);
         }
-        else{
-            selectedUsers.add(user);
-        }
-        updateTextViewPickedGroups();
+    }
+
+    @Override
+    public void error() {
+
     }
 }

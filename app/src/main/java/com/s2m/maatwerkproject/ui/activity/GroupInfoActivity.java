@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.ui.adapters.UserListAdapter;
+import com.s2m.maatwerkproject.ui.adapter.UserListAdapter;
 import com.s2m.maatwerkproject.data.models.Group;
 
 import org.parceler.Parcels;
@@ -44,7 +44,7 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         textViewGroupName.setText(group.getName());
         textViewLocation.setText(group.getLocation());
-        textViewUserCount.setText(String.format("%S Users", String.valueOf(group.getUsers().length)));
+        textViewUserCount.setText(String.format("%S Users", String.valueOf(group.getUsers().size())));
     }
 
     @OnClick(R.id.imageViewGroupInfoEditIcon)

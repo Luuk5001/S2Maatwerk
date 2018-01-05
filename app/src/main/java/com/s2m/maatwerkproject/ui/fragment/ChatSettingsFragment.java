@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.AppSettings;
 import com.s2m.maatwerkproject.data.models.Setting;
-import com.s2m.maatwerkproject.utils.VariableAndroidListItemAdapter;
+import com.s2m.maatwerkproject.ui.adapter.VariableAndroidListItemAdapter;
 
 import butterknife.ButterKnife;
 

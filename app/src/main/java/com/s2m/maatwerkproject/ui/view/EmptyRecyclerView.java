@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.utils;
+package com.s2m.maatwerkproject.ui.view;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

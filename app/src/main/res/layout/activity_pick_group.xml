@@ -34,7 +34,7 @@
             android:id="@+id/textViewPickGroupTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add groups to the chat"
+            android:text="Add chats to the chat"
             android:textSize="16sp" />
 
         <TextView
@@ -45,7 +45,7 @@
             />
     </LinearLayout>
 
-    <com.s2m.maatwerkproject.utils.EmptyRecyclerView
+    <com.s2m.maatwerkproject.ui.view.EmptyRecyclerView
         android:id="@+id/recyclerViewPickGroup"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -56,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutPickUser">
 
-    </com.s2m.maatwerkproject.utils.EmptyRecyclerView>
+    </com.s2m.maatwerkproject.ui.view.EmptyRecyclerView>
 
     <Button
         android:id="@+id/buttonSavePickedGroups"

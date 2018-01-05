@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.ui.adapters.ChatMessageListAdapter;
+import com.s2m.maatwerkproject.ui.adapter.ChatMessageListAdapter;
 import com.s2m.maatwerkproject.data.models.Chat;
-import com.s2m.maatwerkproject.utils.EmptyRecyclerView;
+import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
 
 import org.parceler.Parcels;
 

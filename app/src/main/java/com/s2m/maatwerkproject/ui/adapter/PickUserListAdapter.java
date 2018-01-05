@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.ui.adapters;
+package com.s2m.maatwerkproject.ui.adapter;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -11,14 +11,16 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.User;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PickUserListAdapter extends RecyclerView.Adapter<PickUserListAdapter.PickUserListItemViewHolder> {
-    private User[] users;
+public class PickUserListAdapter extends RecyclerView.Adapter<PickUserListAdapter.PickUserListItemViewHolder> implements IUpdatableAdapter<User> {
+    private List<User> users;
     private final ICheckableUser listener;
 
-    public PickUserListAdapter(User[] users, ICheckableUser listener){
+    public PickUserListAdapter(List<User> users, ICheckableUser listener){
         this.users = users;
         this.listener = listener;
     }
@@ -33,12 +35,24 @@ public class PickUserListAdapter extends RecyclerView.Adapter<PickUserListAdapte
 
     @Override
     public void onBindViewHolder(PickUserListAdapter.PickUserListItemViewHolder holder, int position) {
-        holder.bindUserListItem(users[position]);
+        holder.bindUserListItem(users.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return users.length;
+        return users.size();
+    }
+
+    @Override
+    public void refreshData(List<User> data) {
+        this.users.clear();
+        this.users.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void addItem(User item) {
+
     }
 
     public class PickUserListItemViewHolder extends RecyclerView.ViewHolder

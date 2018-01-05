@@ -1,6 +1,6 @@
 package com.s2m.maatwerkproject.data.models;
 
-import com.s2m.maatwerkproject.utils.VariableAndroidListItemAdapter;
+import com.s2m.maatwerkproject.ui.adapter.VariableAndroidListItemAdapter;
 
 public class Setting implements VariableAndroidListItemAdapter.VariableListItem{
 

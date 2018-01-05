@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.ui.adapters;
+package com.s2m.maatwerkproject.ui.adapter;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -12,15 +12,17 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Group;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PickGroupListAdapter extends RecyclerView.Adapter<PickGroupListAdapter.PickGroupListItemViewHolder> {
+public class PickGroupListAdapter extends RecyclerView.Adapter<PickGroupListAdapter.PickGroupListItemViewHolder> implements IUpdatableAdapter<Group> {
 
-    private Group[] groups;
+    private List<Group> groups;
     private final ICheckableGroup listener;
 
-    public PickGroupListAdapter(Group[] groups, ICheckableGroup listener){
+    public PickGroupListAdapter(List<Group> groups, ICheckableGroup listener){
         this.groups = groups;
         this.listener = listener;
     }
@@ -35,12 +37,24 @@ public class PickGroupListAdapter extends RecyclerView.Adapter<PickGroupListAdap
 
     @Override
     public void onBindViewHolder(PickGroupListAdapter.PickGroupListItemViewHolder holder, int position) {
-        holder.bindGroupListItem(groups[position]);
+        holder.bindGroupListItem(groups.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return groups.length;
+        return groups.size();
+    }
+
+    @Override
+    public void refreshData(List<Group> data) {
+        groups.clear();
+        groups.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void addItem(Group item) {
+
     }
 
     public class PickGroupListItemViewHolder extends RecyclerView.ViewHolder
