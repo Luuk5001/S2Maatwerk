@@ -11,18 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.s2m.maatwerkproject.data.repository.ChatRepository;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
-import com.s2m.maatwerkproject.ui.adapter.ChatListAdapter;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Chat;
+import com.s2m.maatwerkproject.data.repository.ChatRepository;
+import com.s2m.maatwerkproject.data.repository.IRepoCallback;
 import com.s2m.maatwerkproject.ui.activity.ChatActivity;
+import com.s2m.maatwerkproject.ui.adapter.ChatListAdapter;
 import com.s2m.maatwerkproject.ui.adapter.IClickableChat;
 import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
+import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,7 +45,7 @@ public class ChatListFragment extends Fragment implements IClickableChat, IRepoC
 
         ChatRepository chatRepo = new ChatRepository(this);
 
-        chatListAdapter = new ChatListAdapter(new ArrayList<Chat>(), this);
+        chatListAdapter = new ChatListAdapter(new NonDuplicateList<Chat>(), this);
 
         recyclerView.setEmptyView(emptyView);
         recyclerView.setAdapter(chatListAdapter);

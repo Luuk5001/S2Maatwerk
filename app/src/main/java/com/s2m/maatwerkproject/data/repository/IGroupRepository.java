@@ -7,6 +7,6 @@ import java.util.List;
 public interface IGroupRepository {
 
 	void searchGroups(String keywords);
-	void getMyGroups(String userId);
+	void setGroupListener(String userId);
 	void createGroup(Group group);
 }

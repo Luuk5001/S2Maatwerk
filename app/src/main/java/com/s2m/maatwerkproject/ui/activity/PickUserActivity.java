@@ -1,8 +1,8 @@
 package com.s2m.maatwerkproject.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
@@ -10,17 +10,19 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.s2m.maatwerkproject.R;
+import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.repository.IRepoCallback;
 import com.s2m.maatwerkproject.data.repository.UserRepository;
 import com.s2m.maatwerkproject.ui.adapter.ICheckableUser;
-import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.ui.adapter.PickUserListAdapter;
-import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
+import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import org.apache.commons.lang3.StringUtils;
 import org.parceler.Parcels;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class PickUserActivity extends AppCompatActivity implements ICheckableUse
     TextView textViewPickedUsers;
 
     private List<User> users;
-    private ArrayList<User> selectedUsers;
+    private List<User> selectedUsers;
     private UserRepository userRepo;
     private PickUserListAdapter pickUserListAdapter;
 
@@ -50,7 +52,7 @@ public class PickUserActivity extends AppCompatActivity implements ICheckableUse
         setContentView(R.layout.activity_pick_user);
         ButterKnife.bind(this);
 
-        users = new ArrayList<>();
+        users = new NonDuplicateList<>();
         selectedUsers = new ArrayList<>();
 
         userRepo = new UserRepository(this);

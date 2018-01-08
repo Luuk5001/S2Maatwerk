@@ -1,6 +1,7 @@
 package com.s2m.maatwerkproject.data.models;
 
 import com.google.firebase.database.Exclude;
+import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import org.parceler.Parcel;
 
@@ -63,7 +64,6 @@ public class Group {
         this.location = location;
     }
 
-    @Exclude
     public List<Group> getChats() {
         return chats;
     }
@@ -72,7 +72,6 @@ public class Group {
         this.chats = chats;
     }
 
-    @Exclude
     public List<User> getUsers() {
         return users;
     }
@@ -83,7 +82,8 @@ public class Group {
 
     public void addUser(User user){
         if(users == null){
-            users = new ArrayList<>();
+            users = new NonDuplicateList<User>() {
+            };
         }
         users.add(user);
     }

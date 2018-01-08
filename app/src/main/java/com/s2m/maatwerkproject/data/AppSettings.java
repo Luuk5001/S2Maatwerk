@@ -3,6 +3,7 @@ package com.s2m.maatwerkproject.data;
 import com.s2m.maatwerkproject.data.models.Setting;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class AppSettings {
 
@@ -27,7 +28,7 @@ public final class AppSettings {
     };
 
     public static Setting[] getSettingsArray(Setting.SettingType settingType){
-        ArrayList<Setting> filteredSettings = new ArrayList<>();
+        List<Setting> filteredSettings = new ArrayList<>();
         for(Setting setting : SETTINGS){
             if(setting.getSettingType() == settingType){
                 filteredSettings.add(setting);

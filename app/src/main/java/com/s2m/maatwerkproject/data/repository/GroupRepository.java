@@ -1,5 +1,6 @@
 package com.s2m.maatwerkproject.data.repository;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -9,11 +10,13 @@ import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.Firebase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class GroupRepository extends BaseRepository<Group> implements IGroupRepository {
+public class GroupRepository extends BaseRepository<Group> implements IGroupRepository, ChildEventListener {
 
-    public static final String KEY_MY_GROUPS = "my_groups";
+    public static final String KEY_GET_GROUPS = "my_groups";
     public static final String KEY_SEARCH_GROUPS = "search_groups";
 
 	public GroupRepository(IRepoCallback callback) {
@@ -40,49 +43,67 @@ public class GroupRepository extends BaseRepository<Group> implements IGroupRepo
         });
     }
 
-    /**
-     * Returns all groups the user is a member of one at a time
-     * @param userId uuid of the user
-     */
     @Override
-    public void getMyGroups(String userId) {
-        reference.orderByChild("users/"+userId).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot groupChild: dataSnapshot.getChildren()) {
-                    final Group group = groupChild.getValue(Group.class);
-                    group.setId(groupChild.getKey());
-                    for(DataSnapshot userChild : groupChild.child("users").getChildren()) {
-                        reference.getParent().child("user/"+userChild.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                group.addUser(dataSnapshot.getValue(User.class));
-                                callback.single(group, KEY_MY_GROUPS);
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+    public void setGroupListener(String userId) {
+        reference.orderByChild("users/"+userId).equalTo(true).addChildEventListener(this);
     }
 
     @Override
-    public void createGroup(Group group){
+    public void createGroup(Group group){;
+        Map<String, User> users = new HashMap<>();
+        for (User user : group.getUsers()) {
+            users.put(user.getId(), user);
+        }
+	    /*
 	    // Add group
         DatabaseReference groupRef = reference.push();
         groupRef.setValue(group);
         groupRef = groupRef.child("users");
-        // Add users manually to set their key to their existing one
+        // Add users manually to set key to their existing one
         for (User user : group.getUsers()) {
             groupRef.child(user.getId()).setValue(true);
         }
+        */
+    }
+
+    @Override
+    public void onChildAdded(DataSnapshot groupChild, String s) {
+        final Group group = groupChild.getValue(Group.class);
+        group.setId(groupChild.getKey());
+        for(DataSnapshot userChild : groupChild.child("users").getChildren()) {
+            reference.getParent().child("user/"+userChild.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    user.setId(dataSnapshot.getKey());
+                    group.addUser(user);
+                    callback.single(group, KEY_GET_GROUPS);
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
     }
 }

@@ -12,26 +12,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.data.models.User;
+import com.s2m.maatwerkproject.data.Firebase;
+import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
 import com.s2m.maatwerkproject.data.repository.IRepoCallback;
-import com.s2m.maatwerkproject.data.repository.UserRepository;
-import com.s2m.maatwerkproject.ui.adapter.GroupListAdapter;
-import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.ui.activity.GroupInfoActivity;
+import com.s2m.maatwerkproject.ui.activity.MainActivity;
+import com.s2m.maatwerkproject.ui.adapter.GroupListAdapter;
 import com.s2m.maatwerkproject.ui.adapter.IClickableGroup;
 import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
-import com.s2m.maatwerkproject.data.Firebase;
+import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupListFragment extends Fragment implements IClickableGroup, IRepoCallback<Group> {
+public class GroupListFragment extends Fragment implements IClickableGroup{
 
     @BindView(R.id.recyclerViewGroupList)
     EmptyRecyclerView recyclerView;
@@ -46,10 +45,7 @@ public class GroupListFragment extends Fragment implements IClickableGroup, IRep
         View view = inflater.inflate(R.layout.fragment_group_list, container, false);
         ButterKnife.bind(this, view);
 
-        GroupRepository groupRepo = new GroupRepository(this);
-        groupRepo.getMyGroups(Firebase.currentUser.getUid());
-
-        groupListAdapter = new GroupListAdapter(new ArrayList<Group>(), this);
+        groupListAdapter = new GroupListAdapter(new NonDuplicateList<Group>(), this);
 
         recyclerView.setEmptyView(emptyView);
         recyclerView.setAdapter(groupListAdapter);
@@ -68,20 +64,7 @@ public class GroupListFragment extends Fragment implements IClickableGroup, IRep
         startActivity(intent);
     }
 
-    @Override
-    public void single(Group obj, String callKey) {
-        if(callKey.equals(GroupRepository.KEY_MY_GROUPS)){
-            groupListAdapter.addItem(obj);
-        }
-    }
-
-    @Override
-    public void list(List<Group> obj, String callKey) {
-
-    }
-
-    @Override
-    public void error() {
-
+    public void addGroup(Group group){
+        groupListAdapter.addItem(group);
     }
 }

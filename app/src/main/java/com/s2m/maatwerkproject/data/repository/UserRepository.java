@@ -3,10 +3,10 @@ package com.s2m.maatwerkproject.data.repository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.Firebase;
+import com.s2m.maatwerkproject.data.models.User;
+import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository extends BaseRepository<User> implements IUserRepository {
@@ -28,7 +28,7 @@ public class UserRepository extends BaseRepository<User> implements IUserReposit
         reference.limitToFirst(50).startAt(keywords).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<User> list = new ArrayList<>();
+                List<User> list = new NonDuplicateList<>();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     User user = child.getValue(User.class);
                     user.setId(child.getKey());

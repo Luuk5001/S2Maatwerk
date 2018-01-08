@@ -55,12 +55,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
 
     @Override
     public void addItem(Group item) {
-        if(groups.contains(item)){
-            groups.set(groups.indexOf(item), item);
-        }
-        else{
-            groups.add(item);
-        }
+        groups.add(item);
         notifyDataSetChanged();
     }
 
