@@ -16,16 +16,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PickUserListAdapter extends RecyclerView.Adapter<PickUserListAdapter.PickUserListItemViewHolder> implements IUpdatableAdapter<User> {
+public class PickUserListAdapter extends RecyclerView.Adapter<PickUserListAdapter.PickUserListItemViewHolder> implements UpdatableAdapterInterface<User> {
 
-    public interface PickUserInterface {
+    public interface PickUserListener {
         void onChecked(User user);
     }
 
     private List<User> users;
-    private final PickUserInterface listener;
+    private final PickUserListener listener;
 
-    public PickUserListAdapter(List<User> users, PickUserInterface listener){
+    public PickUserListAdapter(List<User> users, PickUserListener listener){
         this.users = users;
         this.listener = listener;
     }

@@ -10,18 +10,18 @@ import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
+import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.ui.fragment.ChatListFragment;
-import com.s2m.maatwerkproject.ui.fragment.GroupListFragment;
+import com.s2m.maatwerkproject.ui.fragment.GroupListListenerListFragment;
 import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import java.util.List;
 
-public class MainActivity extends MainOptionsMenuActivity implements IRepoCallback<Group> {
+public class MainActivity extends MainOptionsMenuActivity implements RepositoryCallback<Group> {
 
     private List<Group> groups;
     private ChatListFragment chatListFragment;
-    private GroupListFragment groupListFragment;
+    private GroupListListenerListFragment groupListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +31,10 @@ public class MainActivity extends MainOptionsMenuActivity implements IRepoCallba
         groups = new NonDuplicateList<>();
 
         GroupRepository groupRepo = new GroupRepository(this);
-        groupRepo.setChildEventListener(Firebase.currentUser.getUid());
+        groupRepo.setChildEventListener(Firebase.getAuthInstance().getCurrentUser().getUid());
 
         chatListFragment = new ChatListFragment();
-        groupListFragment = new GroupListFragment();
+        groupListFragment = new GroupListListenerListFragment();
 
         ViewPager viewPager = findViewById(R.id.viewPagerMain);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {

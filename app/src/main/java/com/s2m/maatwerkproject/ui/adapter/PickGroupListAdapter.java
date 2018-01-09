@@ -17,12 +17,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PickGroupListAdapter extends RecyclerView.Adapter<PickGroupListAdapter.PickGroupListItemViewHolder> implements IUpdatableAdapter<Group> {
+public class PickGroupListAdapter extends RecyclerView.Adapter<PickGroupListAdapter.PickGroupListItemViewHolder> implements UpdatableAdapterInterface<Group> {
+
+    public interface PickGroupListener {
+        void onCheckPickGroupItem(Group group);
+        void onClickImageViewShowGroupInfo(Group group);
+    }
+
 
     private List<Group> groups;
-    private final ICheckableGroup listener;
+    private final PickGroupListener listener;
 
-    public PickGroupListAdapter(List<Group> groups, ICheckableGroup listener){
+    public PickGroupListAdapter(List<Group> groups, PickGroupListener listener){
         this.groups = groups;
         this.listener = listener;
     }

@@ -1,6 +1,7 @@
 package com.s2m.maatwerkproject.ui.adapter;
 
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,25 +10,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.User;
+import com.s2m.maatwerkproject.data.Firebase;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserListItemViewHolder> implements IUpdatableAdapter<User> {
+public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserListItemViewHolder> implements UpdatableAdapterInterface<User> {
 
-    public interface UserListInterface{
+    public interface UserListListener {
         void onDeleteIconClick(User user);
     }
 
     private List<User> users;
-    private UserListInterface listener;
+    private UserListListener listener;
 
-    public UserListAdapter(List<User> users, UserListInterface listener){
-        this.users = putSelfOnTop(users);
+    public UserListAdapter(List<User> users, UserListListener listener){
+        users.remove(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), null));
+        this.users = users;
         this.listener = listener;
     }
 
@@ -61,17 +63,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
 
     @Override
     public int getItemCount() {
-        return users.size();
-    }
-
-    private List<User> putSelfOnTop(List<User> users) {
-        User user = new User();
-        user.setId(Firebase.currentUser.getUid());
-        int index = users.indexOf(user);
-        user = users.get(index);
-        users.remove(index);
-        users.add(0, user);
-        return users;
+        return users == null ? 0 : users.size();
     }
 
     class UserListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -90,14 +82,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
 
         void bindUser(User user){
             this.user = user;
-            if(user.getId().equals(Firebase.currentUser.getUid())){
-                textViewUserName.setText("You");
-                imageViewDeleteUser.setVisibility(View.GONE);
-            }
-            else{
-                textViewUserName.setText(user.getName());
-                imageViewDeleteUser.setOnClickListener(this);
-            }
+            textViewUserName.setText(user.getName());
+            imageViewDeleteUser.setOnClickListener(this);
         }
 
         @Override

@@ -9,18 +9,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.models.User;
-import com.s2m.maatwerkproject.data.Firebase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GroupRepository extends BaseRepository<Group> implements IGroupRepository, ChildEventListener {
+public class GroupRepository extends BaseRepository<Group> implements GroupRepositoryInterface, ChildEventListener {
 
-    public GroupRepository(IRepoCallback callback) {
-		super(Group.class, callback, Firebase.getDatabase().getReference().child("group"));
+    public GroupRepository(RepositoryCallback callback) {
+		super(Group.class, callback, Firebase.getDatabaseInstance().getReference().child("group"));
 	}
 
     @Override

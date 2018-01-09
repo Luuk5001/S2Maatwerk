@@ -2,7 +2,6 @@ package com.s2m.maatwerkproject.ui.adapter;
 
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.data.models.Message;
 
 import java.util.List;
 
@@ -20,10 +18,14 @@ import butterknife.ButterKnife;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListItemViewHolder> {
 
-    private List<Chat> chats;
-    private final IClickableChat listener;
+    public interface ChatListListener {
+        void onClickChatItem(Chat chat);
+    }
 
-    public ChatListAdapter(List<Chat> chats, IClickableChat listener){
+    private List<Chat> chats;
+    private final ChatListListener listener;
+
+    public ChatListAdapter(List<Chat> chats, ChatListListener listener){
         this.chats = chats;
         this.listener = listener;
     }

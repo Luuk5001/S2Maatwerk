@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ChatInfoActivity extends AppCompatActivity implements GroupListAdapter.IClickableGroup {
+public class ChatInfoActivity extends AppCompatActivity implements GroupListAdapter.GroupListListener {
 
     private Chat chat;
 

@@ -14,10 +14,9 @@ import android.widget.TextView;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.data.repository.ChatRepository;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
+import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.ui.activity.ChatActivity;
 import com.s2m.maatwerkproject.ui.adapter.ChatListAdapter;
-import com.s2m.maatwerkproject.ui.adapter.IClickableChat;
 import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
 import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
@@ -28,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChatListFragment extends Fragment implements IClickableChat, IRepoCallback<Chat> {
+public class ChatListFragment extends Fragment implements ChatListAdapter.ChatListListener, RepositoryCallback<Chat> {
 
     @BindView(R.id.recyclerViewChatList)
     EmptyRecyclerView recyclerView;

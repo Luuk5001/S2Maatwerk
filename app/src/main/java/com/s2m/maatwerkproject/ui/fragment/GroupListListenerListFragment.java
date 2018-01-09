@@ -23,7 +23,7 @@ import org.parceler.Parcels;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupListFragment extends Fragment implements GroupListAdapter.IClickableGroup{
+public class GroupListListenerListFragment extends Fragment implements GroupListAdapter.GroupListListener {
 
     @BindView(R.id.recyclerViewGroupList)
     EmptyRecyclerView recyclerView;

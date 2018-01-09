@@ -13,8 +13,7 @@ import android.widget.Toast;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
-import com.s2m.maatwerkproject.ui.adapter.ICheckableGroup;
+import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.ui.adapter.PickGroupListAdapter;
 import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
 import com.s2m.maatwerkproject.utils.NonDuplicateList;
@@ -28,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PickGroupActivity extends AppCompatActivity implements ICheckableGroup, IRepoCallback<Group> {
+public class PickGroupActivity extends AppCompatActivity implements PickGroupListAdapter.PickGroupListener, RepositoryCallback<Group> {
 
     public static final int GROUP_REQUEST_CODE = 102;
 

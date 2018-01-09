@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.s2m.maatwerkproject.data.AppSettings;
+import com.s2m.maatwerkproject.ui.AppSettings;
 import com.s2m.maatwerkproject.ui.activity.ChangeEmailActivity;
 import com.s2m.maatwerkproject.ui.activity.ChangePasswordActivity;
 import com.s2m.maatwerkproject.ui.activity.ChangePhoneNumberActivity;

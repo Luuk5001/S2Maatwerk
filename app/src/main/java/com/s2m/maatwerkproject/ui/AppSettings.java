@@ -1,4 +1,4 @@
-package com.s2m.maatwerkproject.data;
+package com.s2m.maatwerkproject.ui;
 
 import com.s2m.maatwerkproject.data.models.Setting;
 

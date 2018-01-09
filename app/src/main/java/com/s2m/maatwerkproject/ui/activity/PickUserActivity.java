@@ -11,9 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.User;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
+import com.s2m.maatwerkproject.data.Firebase;
+import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.data.repository.UserRepository;
 import com.s2m.maatwerkproject.ui.adapter.PickUserListAdapter;
 import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PickUserActivity extends AppCompatActivity implements PickUserListAdapter.PickUserInterface, IRepoCallback<User> {
+public class PickUserActivity extends AppCompatActivity implements PickUserListAdapter.PickUserListener, RepositoryCallback<User> {
 
     @BindView(R.id.recyclerViewPickUser)
     EmptyRecyclerView recyclerView;
@@ -117,9 +117,9 @@ public class PickUserActivity extends AppCompatActivity implements PickUserListA
 
     @Override
     public void list(List<User> obj, String callbackKey) {
-        if(callbackKey.equals(UserRepository.KEY_SEARCH_USERS)){
+        if(callbackKey.equals(UserRepository.KEY_USERS_FOUND)){
             User tempUser = new User();
-            tempUser.setId(Firebase.currentUser.getUid());
+            tempUser.setId(Firebase.getAuthInstance().getCurrentUser().getUid());
             //Remove users that are already members
             if(memberUsers == null)
                 obj.remove(tempUser);

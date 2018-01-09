@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.data.models.Group;
-import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.repository.ChatRepository;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
+import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 
 import org.parceler.Parcels;
 
@@ -23,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreateNewChatActivity extends AppCompatActivity implements IRepoCallback<Chat> {
+public class CreateNewChatActivity extends AppCompatActivity implements RepositoryCallback<Chat> {
 
     @BindView(R.id.editTextCreateChatName)
     EditText editTextChatName;

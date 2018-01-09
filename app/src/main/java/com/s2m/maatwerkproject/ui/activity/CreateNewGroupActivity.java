@@ -1,7 +1,6 @@
 package com.s2m.maatwerkproject.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,10 +9,11 @@ import android.widget.EditText;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.s2m.maatwerkproject.R;
+import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
+import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 
 import org.parceler.Parcels;
 
@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreateNewGroupActivity extends ValidationActivity implements IRepoCallback<Group>{
+public class CreateNewGroupActivity extends ValidationActivity implements RepositoryCallback<Group> {
 
     private static final int RC_PICKED_USERS = 101;
 
@@ -62,6 +62,7 @@ public class CreateNewGroupActivity extends ValidationActivity implements IRepoC
             if(resultCode == RESULT_OK){
                 Bundle bundle = data.getExtras();
                 List<User> users = Parcels.unwrap(bundle.getParcelable(User.USER_MODEL_KEY));
+                users.add(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), null));
                 Group group = new Group(editTextGroupName.getText().toString(),
                         editTextGroupDescription.getText().toString(),
                         editTextGroupLocation.getText().toString(),

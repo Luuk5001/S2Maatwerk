@@ -13,9 +13,9 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.User;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
+import com.s2m.maatwerkproject.data.Firebase;
+import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.data.repository.UserRepository;
 import com.s2m.maatwerkproject.ui.fragment.dialog.UsernameDialogFragment;
 
@@ -25,19 +25,17 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SingInActivity extends AppCompatActivity implements IRepoCallback<User>, UsernameDialogFragment.UsernameDialogListener {
+public class SingInActivity extends AppCompatActivity implements RepositoryCallback<User>, UsernameDialogFragment.UsernameDialogListener {
 
-    public static final int SING_IN_REQUEST_CODE = 11;
+    public static final int RC_SING_IN = 101;
 
-    private FirebaseAuth firebaseAuth;
     private UserRepository userRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        FirebaseUser firebaseUser = Firebase.getAuthInstance().getCurrentUser();
 
         userRepo = new UserRepository(this);
 
@@ -50,13 +48,51 @@ public class SingInActivity extends AppCompatActivity implements IRepoCallback<U
         }
     }
 
+    @Override
+    public void single(User user, String callbackKey) {
+        if(callbackKey.equals(UserRepository.KEY_USER)){
+            if(user == null){
+                UsernameDialogFragment dialogUsernameFragment = new UsernameDialogFragment();
+                dialogUsernameFragment.show(getFragmentManager(), DialogFragment.class.getSimpleName());
+            }
+            else{
+                startMainActivity();
+            }
+        }
+    }
+
+    @Override
+    public void list(List<User> users, String callbackKey) {
+
+    }
+
+    @Override
+    public void error(String errorMessage) {
+
+    }
+
+    @Override
+    public void onUsernameDialogPositiveClick(String username) {
+        userRepo.addUser(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), username));
+        startMainActivity();
+    }
+
     @OnClick(R.id.buttonSingIn)
     public void onClickButtonSingIn(View view){
-        singIn();
+        startActivityForResult(AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(
+                                Arrays.asList(
+                                        new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                        new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                                        new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
+                                        new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()))
+                        .build(),
+                RC_SING_IN);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SING_IN_REQUEST_CODE) {
+        if (requestCode == RC_SING_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             // Successfully signed in
             if (resultCode == RESULT_OK) {
@@ -85,19 +121,6 @@ public class SingInActivity extends AppCompatActivity implements IRepoCallback<U
         }
     }
 
-    private void singIn() {
-        startActivityForResult(AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(
-                                Arrays.asList(
-                                        new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
-                                        new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                                        new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
-                                        new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()))
-                        .build(),
-                SING_IN_REQUEST_CODE);
-    }
-
     private void startMainActivity(){
         Intent intent = new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
@@ -105,36 +128,6 @@ public class SingInActivity extends AppCompatActivity implements IRepoCallback<U
     }
 
     private void checkIfUserExists(){
-        Firebase.currentUser = firebaseAuth.getCurrentUser();
-        userRepo.getById(Firebase.currentUser.getUid(), UserRepository.KEY_GET_USER);
-    }
-
-    @Override
-    public void onUsernameDialogPositiveClick(String username) {
-        userRepo.addUser(new User(Firebase.currentUser.getUid(), username));
-        startMainActivity();
-    }
-
-    @Override
-    public void single(User user, String callbackKey) {
-        if(callbackKey.equals(UserRepository.KEY_GET_USER)){
-            if(user == null){
-                UsernameDialogFragment dialogUsernameFragment = new UsernameDialogFragment();
-                dialogUsernameFragment.show(getFragmentManager(), DialogFragment.class.getSimpleName());
-            }
-            else{
-                startMainActivity();
-            }
-        }
-    }
-
-    @Override
-    public void list(List<User> users, String callbackKey) {
-
-    }
-
-    @Override
-    public void error(String errorMessage) {
-
+        userRepo.getById(Firebase.getAuthInstance().getCurrentUser().getUid(), UserRepository.KEY_USER);
     }
 }

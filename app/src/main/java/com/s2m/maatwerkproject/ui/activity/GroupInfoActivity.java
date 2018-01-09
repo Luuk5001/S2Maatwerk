@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.User;
+import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
+import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.ui.adapter.UserListAdapter;
 import com.s2m.maatwerkproject.data.models.Group;
 
@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GroupInfoActivity extends AppCompatActivity implements UserListAdapter.UserListInterface, IRepoCallback<Group> {
+public class GroupInfoActivity extends AppCompatActivity implements UserListAdapter.UserListListener, RepositoryCallback<Group> {
 
     private static final int RC_UPDATED_GROUP = 101;
     private static final int RC_PICKED_USERS = 102;
@@ -134,7 +134,7 @@ public class GroupInfoActivity extends AppCompatActivity implements UserListAdap
     public void onClickButtonGroupInfoLeave(View view){
         User tempUser = new User();
         Group tempGroup = group;
-        tempUser.setId(Firebase.currentUser.getUid());
+        tempUser.setId(Firebase.getAuthInstance().getCurrentUser().getUid());
         tempGroup.removeUser(tempUser);
         groupRepository.updateGroup(tempGroup);
         leavingGroup = true;

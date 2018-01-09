@@ -12,7 +12,7 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.IRepoCallback;
+import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 
 import org.parceler.Parcels;
 
@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditGroupActivity extends ValidationActivity implements IRepoCallback<Group> {
+public class EditGroupActivity extends ValidationActivity implements RepositoryCallback<Group> {
 
     public static final String TAG = EditGroupActivity.class.getSimpleName();
 

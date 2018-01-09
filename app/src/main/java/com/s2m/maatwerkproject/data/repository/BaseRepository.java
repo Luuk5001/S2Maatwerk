@@ -5,14 +5,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-public abstract class BaseRepository<T> implements IBaseRepository<T> {
+public abstract class BaseRepository<T> implements BaseRepositoryInterface<T> {
 
     protected DatabaseReference reference;
-    protected IRepoCallback callback;
+    protected RepositoryCallback callback;
 
     private final Class<T> type;
 
-	BaseRepository(Class<T> type, IRepoCallback callback, DatabaseReference reference) {
+	BaseRepository(Class<T> type, RepositoryCallback callback, DatabaseReference reference) {
 	    this.type = type;
 	    this.reference = reference;
 	    this.callback = callback;

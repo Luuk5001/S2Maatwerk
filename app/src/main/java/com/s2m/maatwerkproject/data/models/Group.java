@@ -1,6 +1,5 @@
 package com.s2m.maatwerkproject.data.models;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.database.Exclude;
@@ -8,7 +7,6 @@ import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import org.parceler.Parcel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Parcel

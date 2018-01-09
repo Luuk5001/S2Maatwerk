@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
+import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.models.User;
 
@@ -18,16 +19,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.GroupListItemViewHolder> implements IUpdatableAdapter<Group> {
+public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.GroupListItemViewHolder> implements UpdatableAdapterInterface<Group> {
 
-    public interface IClickableGroup {
+    public interface GroupListListener {
         void onClickGroupItem(Group group);
     }
 
     private List<Group> groups;
-    private final IClickableGroup listener;
+    private final GroupListListener listener;
 
-    public GroupListAdapter(List<Group> groups, IClickableGroup listener){
+    public GroupListAdapter(List<Group> groups, GroupListListener listener){
         this.groups = groups;
         this.listener = listener;
     }
@@ -88,9 +89,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         }
 
         void bindGroupListItem(Group group){
-            //TODO bind remaining data
-            //TODO do not allow nulls in user array
-            //TODO remove users own name from group users
+            group.getUsers().remove(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), null));
             this.group = group;
             textViewGroupUsers.setText("");
             textViewGroupName.setText(group.getName());

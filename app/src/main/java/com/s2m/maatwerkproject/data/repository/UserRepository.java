@@ -1,5 +1,6 @@
 package com.s2m.maatwerkproject.data.repository;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -9,13 +10,14 @@ import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import java.util.List;
 
-public class UserRepository extends BaseRepository<User> implements IUserRepository {
+public class UserRepository extends BaseRepository<User> implements UserRepositoryInterface {
 
-    public static final String KEY_GET_USER = "check_if_user_exists";
-    public static final String KEY_SEARCH_USERS = "search_users";
+    public static final String KEY_USER = "user";
+    public static final String KEY_USERS_FOUND = "users_found";
+    public static final String KEY_SINGED_IN_USER = "singed_in_user";
 
-    public UserRepository(IRepoCallback<User> callback) {
-        super(User.class, callback, Firebase.getDatabase().getReference().child("user"));
+    public UserRepository(RepositoryCallback<User> callback) {
+        super(User.class, callback, Firebase.getDatabaseInstance().getReference().child("user"));
     }
 
     @Override
@@ -30,11 +32,14 @@ public class UserRepository extends BaseRepository<User> implements IUserReposit
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<User> list = new NonDuplicateList<>();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    User user = child.getValue(User.class);
-                    user.setId(child.getKey());
-                    list.add(user);
+                    //Exclude self from searches
+                    if(!child.getKey().equals(Firebase.getAuthInstance().getCurrentUser().getUid())){
+                        User user = child.getValue(User.class);
+                        user.setId(child.getKey());
+                        list.add(user);
+                    }
                 }
-                callback.list(list, KEY_SEARCH_USERS);
+                callback.list(list, KEY_USERS_FOUND);
             }
 
             @Override
@@ -45,6 +50,6 @@ public class UserRepository extends BaseRepository<User> implements IUserReposit
 
     @Override
     public void setChildEventListener(String userId) {
-
+        throw new UnsupportedOperationException();
     }
 }

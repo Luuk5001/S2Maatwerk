@@ -11,6 +11,8 @@ public class User {
 
     private String id;
     private String name;
+    private String email;
+    private String phoneNumber;
 
     public User() {
     }
@@ -18,6 +20,13 @@ public class User {
     public User(String id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public User(String id, String name, String email, String phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     @Exclude
@@ -36,6 +45,16 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Exclude
+    public String getEmail() {
+        return email;
+    }
+
+    @Exclude
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     @Override

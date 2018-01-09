@@ -1,11 +1,8 @@
 package com.s2m.maatwerkproject.data.repository;
 
 import com.s2m.maatwerkproject.data.models.Group;
-import com.s2m.maatwerkproject.data.models.User;
 
-import java.util.List;
-
-public interface IGroupRepository {
+public interface GroupRepositoryInterface {
 	String KEY_GROUP_LISTENER = "group_listener";
 	String KEY_GROUPS_FOUND = "groups_found";
 	String KEY_GROUP_CREATED = "group_created";

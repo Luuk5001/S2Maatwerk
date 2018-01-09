@@ -7,13 +7,21 @@ import com.google.firebase.database.FirebaseDatabase;
 public abstract class Firebase {
 
     private static FirebaseDatabase database;
-    public static FirebaseUser currentUser;
+    private static FirebaseAuth auth;
 
-    public static FirebaseDatabase getDatabase() {
+    public static FirebaseDatabase getDatabaseInstance() {
         if (database == null) {
             database = FirebaseDatabase.getInstance();
             //database.setPersistenceEnabled(true);
         }
         return database;
+    }
+
+    public static FirebaseAuth getAuthInstance(){
+        if (auth == null) {
+            auth = FirebaseAuth.getInstance();
+            //database.setPersistenceEnabled(true);
+        }
+        return auth;
     }
 }
