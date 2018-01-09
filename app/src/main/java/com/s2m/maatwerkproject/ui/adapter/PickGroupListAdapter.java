@@ -57,6 +57,11 @@ public class PickGroupListAdapter extends RecyclerView.Adapter<PickGroupListAdap
 
     }
 
+    @Override
+    public void removeItem(Group item) {
+
+    }
+
     public class PickGroupListItemViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{
 

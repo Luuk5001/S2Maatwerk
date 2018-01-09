@@ -30,50 +30,48 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="top"
-        android:hint="Group description"
+        android:hint="Group description (max. 1000 characters)"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/editTextEditGroupLocation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEditGroupName"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTextEditGroupName" />
 
     <EditText
         android:id="@+id/editTextEditGroupLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:ems="10"
         android:hint="Location"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/buttonEditGroupPickUsers"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEditGroupSave"
         app:layout_constraintEnd_toStartOf="@+id/imageViewEditGroupLocationIcon"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewEditGroupLocationIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonEditGroupPickUsers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editTextEditGroupLocation"
-        app:srcCompat="@android:drawable/ic_menu_mylocation"/>
+        app:srcCompat="@android:drawable/ic_menu_mylocation" />
 
     <Button
-        android:id="@+id/buttonEditGroupPickUsers"
+        android:id="@+id/buttonEditGroupSave"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="NEXT"
+        android:text="SAVE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

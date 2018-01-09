@@ -31,7 +31,7 @@ public class MainActivity extends MainOptionsMenuActivity implements IRepoCallba
         groups = new NonDuplicateList<>();
 
         GroupRepository groupRepo = new GroupRepository(this);
-        groupRepo.setGroupListener(Firebase.currentUser.getUid());
+        groupRepo.setChildEventListener(Firebase.currentUser.getUid());
 
         chatListFragment = new ChatListFragment();
         groupListFragment = new GroupListFragment();
@@ -60,8 +60,11 @@ public class MainActivity extends MainOptionsMenuActivity implements IRepoCallba
 
     @Override
     public void single(Group obj, String callKey) {
-        if(callKey.equals(GroupRepository.KEY_GET_GROUPS)){
+        if(callKey.equals(GroupRepository.KEY_GROUP_LISTENER)){
             groupListFragment.addGroup(obj);
+        }
+        else if(callKey.equals(GroupRepository.KEY_GROUP_DELETED)){
+            groupListFragment.removeGroup(obj);
         }
     }
 
@@ -71,7 +74,7 @@ public class MainActivity extends MainOptionsMenuActivity implements IRepoCallba
     }
 
     @Override
-    public void error() {
+    public void error(String errorMessage) {
 
     }
 }

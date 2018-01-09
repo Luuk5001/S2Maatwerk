@@ -122,14 +122,14 @@ public class PickGroupActivity extends AppCompatActivity implements ICheckableGr
 
     @Override
     public void list(List<Group> obj, String callKey) {
-        if(callKey.equals(GroupRepository.KEY_SEARCH_GROUPS)){
+        if(callKey.equals(GroupRepository.KEY_GROUPS_FOUND)){
             groups = obj;
             pickGroupListAdapter.refreshData(groups);
         }
     }
 
     @Override
-    public void error() {
+    public void error(String errorMessage) {
 
     }
 }

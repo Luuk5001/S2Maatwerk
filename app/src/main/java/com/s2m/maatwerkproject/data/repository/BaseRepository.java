@@ -18,18 +18,6 @@ public abstract class BaseRepository<T> implements IBaseRepository<T> {
 	    this.callback = callback;
 	}
 
-	public void insert(T entity) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void update(T entity) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void delete(T entity) {
-		throw new UnsupportedOperationException();
-	}
-
 	public void getById(String id, final String callKey) {
         reference.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -43,4 +31,8 @@ public abstract class BaseRepository<T> implements IBaseRepository<T> {
             }
         });
 	}
+
+	public void deleteChild(String id){
+
+    }
 }

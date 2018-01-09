@@ -20,6 +20,10 @@ import butterknife.ButterKnife;
 
 public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.GroupListItemViewHolder> implements IUpdatableAdapter<Group> {
 
+    public interface IClickableGroup {
+        void onClickGroupItem(Group group);
+    }
+
     private List<Group> groups;
     private final IClickableGroup listener;
 
@@ -56,6 +60,12 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
     @Override
     public void addItem(Group item) {
         groups.add(item);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void removeItem(Group item) {
+        groups.remove(item);
         notifyDataSetChanged();
     }
 

@@ -17,10 +17,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PickUserListAdapter extends RecyclerView.Adapter<PickUserListAdapter.PickUserListItemViewHolder> implements IUpdatableAdapter<User> {
-    private List<User> users;
-    private final ICheckableUser listener;
 
-    public PickUserListAdapter(List<User> users, ICheckableUser listener){
+    public interface PickUserInterface {
+        void onChecked(User user);
+    }
+
+    private List<User> users;
+    private final PickUserInterface listener;
+
+    public PickUserListAdapter(List<User> users, PickUserInterface listener){
         this.users = users;
         this.listener = listener;
     }
@@ -45,13 +50,17 @@ public class PickUserListAdapter extends RecyclerView.Adapter<PickUserListAdapte
 
     @Override
     public void refreshData(List<User> data) {
-        this.users.clear();
-        this.users.addAll(data);
+        users = data;
         notifyDataSetChanged();
     }
 
     @Override
     public void addItem(User item) {
+
+    }
+
+    @Override
+    public void removeItem(User item) {
 
     }
 
@@ -87,6 +96,6 @@ public class PickUserListAdapter extends RecyclerView.Adapter<PickUserListAdapte
     }
 
     private void onCheckPickUserItem(User user){
-        listener.onCheckPickUserItem(user);
+        listener.onChecked(user);
     }
 }

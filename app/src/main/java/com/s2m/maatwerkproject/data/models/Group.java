@@ -1,5 +1,8 @@
 package com.s2m.maatwerkproject.data.models;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
 import com.google.firebase.database.Exclude;
 import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
@@ -11,6 +14,7 @@ import java.util.List;
 @Parcel
 public class Group {
 
+    public static final String TAG = Group.class.getSimpleName();
     public static final String GROUP_MODEL_KEY = "group_model";
 
     private String id;
@@ -28,6 +32,15 @@ public class Group {
         this.description = description;
         this.location = location;
         this.users = users;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Group){
+            Group group = (Group) obj;
+            return group.getId().equals(id);
+        }
+        return false;
     }
 
     @Exclude
@@ -72,19 +85,33 @@ public class Group {
         this.chats = chats;
     }
 
+    @Exclude
     public List<User> getUsers() {
         return users;
     }
 
+    @Exclude
     public void setUsers(List<User> users) {
         this.users = users;
     }
 
     public void addUser(User user){
         if(users == null){
+            Log.d(TAG, "User list does not exist, creating one...");
             users = new NonDuplicateList<User>() {
             };
         }
         users.add(user);
+        Log.d(TAG, "User added to list");
+    }
+
+    public void removeUser(User user){
+        if(users != null){
+            users.remove(user);
+            Log.d(TAG, "User removed from list");
+        }
+        else{
+            Log.e(TAG, "User list does not exist, cannot remove user");
+        }
     }
 }

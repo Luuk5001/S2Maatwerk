@@ -61,4 +61,13 @@ public class Chat {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Chat){
+            Chat chat = (Chat) obj;
+            return chat.getId().equals(id);
+        }
+        return false;
+    }
 }

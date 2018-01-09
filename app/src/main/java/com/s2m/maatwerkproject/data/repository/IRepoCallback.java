@@ -7,5 +7,5 @@ import java.util.List;
 public interface IRepoCallback<T> {
     void single(T obj, String callKey);
     void list(List<T> obj, String callKey);
-    void error();
+    void error(String errorMessage);
 }

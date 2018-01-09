@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
+import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.User;
 
 import java.util.List;
@@ -15,12 +17,34 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserListItemViewHolder> {
+public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserListItemViewHolder> implements IUpdatableAdapter<User> {
+
+    public interface UserListInterface{
+        void onDeleteIconClick(User user);
+    }
 
     private List<User> users;
+    private UserListInterface listener;
 
-    public UserListAdapter(List<User> users){
-        this.users = users;
+    public UserListAdapter(List<User> users, UserListInterface listener){
+        this.users = putSelfOnTop(users);
+        this.listener = listener;
+    }
+
+    @Override
+    public void refreshData(List<User> data) {
+        users = data;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void addItem(User item) {
+
+    }
+
+    @Override
+    public void removeItem(User item) {
+
     }
 
     @Override
@@ -40,13 +64,24 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         return users.size();
     }
 
-    class UserListItemViewHolder extends RecyclerView.ViewHolder {
+    private List<User> putSelfOnTop(List<User> users) {
+        User user = new User();
+        user.setId(Firebase.currentUser.getUid());
+        int index = users.indexOf(user);
+        user = users.get(index);
+        users.remove(index);
+        users.add(0, user);
+        return users;
+    }
 
-        //TODO set the on click listener
+    class UserListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         @BindView(R.id.textViewUserListName)
         TextView textViewUserName;
-        @BindView(R.id.textViewUserListId)
-        TextView textViewUserId;
+        @BindView(R.id.imageViewUserListDeleteIcon)
+        ImageView imageViewDeleteUser;
+
+        private User user;
 
         UserListItemViewHolder(View itemView) {
             super(itemView);
@@ -54,8 +89,20 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         }
 
         void bindUser(User user){
-            textViewUserName.setText(user.getName());
-            textViewUserId.setText(user.getId());
+            this.user = user;
+            if(user.getId().equals(Firebase.currentUser.getUid())){
+                textViewUserName.setText("You");
+                imageViewDeleteUser.setVisibility(View.GONE);
+            }
+            else{
+                textViewUserName.setText(user.getName());
+                imageViewDeleteUser.setOnClickListener(this);
+            }
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onDeleteIconClick(user);
         }
     }
 }

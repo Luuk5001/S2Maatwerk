@@ -134,7 +134,7 @@ public class SingInActivity extends AppCompatActivity implements IRepoCallback<U
     }
 
     @Override
-    public void error() {
+    public void error(String errorMessage) {
 
     }
 }

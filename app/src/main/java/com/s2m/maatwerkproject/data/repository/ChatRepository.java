@@ -39,4 +39,9 @@ public class ChatRepository extends BaseRepository<Chat> implements IChatReposit
     public void getMyChats(String userId) {
 
     }
+
+	@Override
+	public void setChildEventListener(String userId) {
+
+	}
 }

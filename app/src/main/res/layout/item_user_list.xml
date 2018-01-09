@@ -25,15 +25,10 @@
             android:id="@+id/textViewUserListName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
-            tools:text="User name"/>
+            tools:text="User name" />
 
-        <TextView
-            android:id="@+id/textViewUserListId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="User ID"/>
     </LinearLayout>
 
     <ImageView

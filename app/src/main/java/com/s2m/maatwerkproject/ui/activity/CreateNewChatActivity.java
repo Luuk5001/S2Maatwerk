@@ -76,7 +76,7 @@ public class CreateNewChatActivity extends AppCompatActivity implements IRepoCal
     }
 
     @Override
-    public void error() {
+    public void error(String errorMessage) {
 
     }
 }

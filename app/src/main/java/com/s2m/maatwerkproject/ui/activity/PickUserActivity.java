@@ -11,10 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.s2m.maatwerkproject.R;
+import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.repository.IRepoCallback;
 import com.s2m.maatwerkproject.data.repository.UserRepository;
-import com.s2m.maatwerkproject.ui.adapter.ICheckableUser;
 import com.s2m.maatwerkproject.ui.adapter.PickUserListAdapter;
 import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
 import com.s2m.maatwerkproject.utils.NonDuplicateList;
@@ -22,7 +22,6 @@ import com.s2m.maatwerkproject.utils.NonDuplicateList;
 import org.apache.commons.lang3.StringUtils;
 import org.parceler.Parcels;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PickUserActivity extends AppCompatActivity implements ICheckableUser, IRepoCallback<User> {
-
-    public static final int USER_REQUEST_CODE = 101;
+public class PickUserActivity extends AppCompatActivity implements PickUserListAdapter.PickUserInterface, IRepoCallback<User> {
 
     @BindView(R.id.recyclerViewPickUser)
     EmptyRecyclerView recyclerView;
@@ -43,6 +40,7 @@ public class PickUserActivity extends AppCompatActivity implements ICheckableUse
 
     private List<User> users;
     private List<User> selectedUsers;
+    private List<User> memberUsers;
     private UserRepository userRepo;
     private PickUserListAdapter pickUserListAdapter;
 
@@ -54,6 +52,8 @@ public class PickUserActivity extends AppCompatActivity implements ICheckableUse
 
         users = new NonDuplicateList<>();
         selectedUsers = new ArrayList<>();
+        memberUsers = Parcels.unwrap(getIntent().getParcelableExtra(User.USER_MODEL_KEY));
+
 
         userRepo = new UserRepository(this);
         userRepo.searchUsers(null);
@@ -75,7 +75,7 @@ public class PickUserActivity extends AppCompatActivity implements ICheckableUse
     }
 
     @Override
-    public void onCheckPickUserItem(User user) {
+    public void onChecked(User user) {
         if(selectedUsers.contains(user)){
             selectedUsers.remove(user);
         }
@@ -118,13 +118,20 @@ public class PickUserActivity extends AppCompatActivity implements ICheckableUse
     @Override
     public void list(List<User> obj, String callbackKey) {
         if(callbackKey.equals(UserRepository.KEY_SEARCH_USERS)){
+            User tempUser = new User();
+            tempUser.setId(Firebase.currentUser.getUid());
+            //Remove users that are already members
+            if(memberUsers == null)
+                obj.remove(tempUser);
+            else
+                obj.removeAll(memberUsers);
             users = obj;
             pickUserListAdapter.refreshData(users);
         }
     }
 
     @Override
-    public void error() {
+    public void error(String errorMessage) {
 
     }
 }

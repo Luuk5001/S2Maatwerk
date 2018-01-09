@@ -42,4 +42,9 @@ public class UserRepository extends BaseRepository<User> implements IUserReposit
             }
         });
     }
+
+    @Override
+    public void setChildEventListener(String userId) {
+
+    }
 }

@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.s2m.maatwerkproject.ui.adapter.IClickableGroup;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.ui.adapter.GroupListAdapter;
 import com.s2m.maatwerkproject.data.models.Chat;
@@ -21,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ChatInfoActivity extends AppCompatActivity implements IClickableGroup {
+public class ChatInfoActivity extends AppCompatActivity implements GroupListAdapter.IClickableGroup {
 
     private Chat chat;
 

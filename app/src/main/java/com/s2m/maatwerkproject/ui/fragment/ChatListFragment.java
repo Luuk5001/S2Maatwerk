@@ -75,7 +75,7 @@ public class ChatListFragment extends Fragment implements IClickableChat, IRepoC
     }
 
     @Override
-    public void error() {
+    public void error(String errorMessage) {
 
     }
 }

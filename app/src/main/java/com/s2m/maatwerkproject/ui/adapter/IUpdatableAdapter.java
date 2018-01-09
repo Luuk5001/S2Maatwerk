@@ -5,4 +5,5 @@ import java.util.List;
 public interface IUpdatableAdapter<T> {
     void refreshData(List<T> data);
     void addItem(T item);
+    void removeItem(T item);
 }

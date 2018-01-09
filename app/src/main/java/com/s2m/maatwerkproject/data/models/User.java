@@ -37,4 +37,13 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof User){
+            User user = (User) obj;
+            return user.getId().equals(id);
+        }
+        return false;
+    }
 }
