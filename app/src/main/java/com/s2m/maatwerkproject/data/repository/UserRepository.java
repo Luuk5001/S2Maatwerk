@@ -47,9 +47,4 @@ public class UserRepository extends BaseRepository<User> implements UserReposito
             }
         });
     }
-
-    @Override
-    public void setChildEventListener(String userId) {
-        throw new UnsupportedOperationException();
-    }
 }

@@ -1,11 +1,16 @@
 package com.s2m.maatwerkproject.data.repository;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.models.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatRepository extends BaseRepository<Chat> implements ChatRepositoryInterface {
@@ -30,14 +35,4 @@ public class ChatRepository extends BaseRepository<Chat> implements ChatReposito
             groupRef.child(group.getId()).child("chats").child(key).setValue(true);
         }
     }
-
-    @Override
-    public void getMyChats(String userId) {
-
-    }
-
-	@Override
-	public void setChildEventListener(String userId) {
-
-	}
 }

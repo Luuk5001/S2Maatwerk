@@ -19,17 +19,19 @@ public class Group {
     private String name;
     private String description;
     private String location;
-    private List<Group> chats;
+    private List<Chat> chats;
     private List<User> users;
 
     public Group() {
     }
 
-    public Group(String name, String description, String location, List<User> users) {
+    public Group(String id, String name, String description, String location, List<User> users, List<Chat> chats) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.location = location;
         this.users = users;
+        this.chats = chats;
     }
 
     @Override
@@ -75,11 +77,13 @@ public class Group {
         this.location = location;
     }
 
-    public List<Group> getChats() {
+    @Exclude
+    public List<Chat> getChats() {
         return chats;
     }
 
-    public void setChats(List<Group> chats) {
+    @Exclude
+    public void setChats(List<Chat> chats) {
         this.chats = chats;
     }
 

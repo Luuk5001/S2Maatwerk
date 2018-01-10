@@ -4,20 +4,21 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.s2m.maatwerkproject.data.Firebase;
+import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.models.User;
+import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GroupRepository extends BaseRepository<Group> implements GroupRepositoryInterface, ChildEventListener {
+public class GroupRepository extends BaseRepository<Group> implements GroupRepositoryInterface {
 
     public GroupRepository(RepositoryCallback callback) {
 		super(Group.class, callback, Firebase.getDatabaseInstance().getReference().child("group"));
@@ -44,8 +45,50 @@ public class GroupRepository extends BaseRepository<Group> implements GroupRepos
     }
 
     @Override
-    public void setChildEventListener(String userId) {
-        reference.orderByChild("users/"+userId).equalTo(true).addChildEventListener(this);
+    public void getMyGroups(final String userId){
+        reference.orderByChild("users/"+userId).equalTo(true)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot groupChild : dataSnapshot.getChildren()) {
+                    String name = (String)groupChild.child("name").getValue();
+                    String description = (String)groupChild.child("description").getValue();
+                    String location = (String)groupChild.child("location").getValue();
+                    HashMap<String, Boolean> userMap = (HashMap)groupChild.child("users").getValue();
+                    HashMap<String, Boolean> chatMap = (HashMap)groupChild.child("chats").getValue();
+                    String[] userIds = (userMap == null) ? new String[0] : userMap.keySet().toArray(new String[0]);
+                    String[] chatIds = (chatMap == null) ? new String[0] : chatMap.keySet().toArray(new String[0]);
+                    getUserDetails(createGroupObject(groupChild.getKey(), name, description, location, userIds, chatIds));
+                }
+            }
+
+            private void getUserDetails(final Group group){
+                for(final User user : group.getUsers()){
+                    reference.getParent().child("user").child(user.getId())
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User tempUser = new User();
+                            tempUser.setId(dataSnapshot.getKey());
+                            tempUser.setName((String)dataSnapshot.child("name").getValue());
+                            group.getUsers().add(tempUser);
+                            callback.single(group, KEY_GROUP);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //TODO handle error
+                callback.error("ERROR");
+            }
+        });
     }
 
     @Override
@@ -58,32 +101,14 @@ public class GroupRepository extends BaseRepository<Group> implements GroupRepos
         writeChanges(group.getId(), group, KEY_GROUP_UPDATED);
     }
 
-    @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        updateGroupList(dataSnapshot);
-    }
-
-    @Override
-    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        updateGroupList(dataSnapshot);
-    }
-
+    /*
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         Group group = dataSnapshot.getValue(Group.class);
         group.setId(dataSnapshot.getKey());
         callback.single(group, KEY_GROUP_DELETED);
     }
-
-    @Override
-    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-
-    }
+    */
 
     private void writeChanges(String id, final Group group, final String callKey){
         DatabaseReference groupRef = reference.child(id);
@@ -108,7 +133,7 @@ public class GroupRepository extends BaseRepository<Group> implements GroupRepos
         });
     }
 
-    private void updateGroupList(DataSnapshot dataSnapshot){
+    private void sendGroupObject(DataSnapshot dataSnapshot){
         final Group group = dataSnapshot.getValue(Group.class);
         group.setId(dataSnapshot.getKey());
         for(DataSnapshot userChild : dataSnapshot.child("users").getChildren()) {
@@ -118,7 +143,7 @@ public class GroupRepository extends BaseRepository<Group> implements GroupRepos
                     User user = dataSnapshot.getValue(User.class);
                     user.setId(dataSnapshot.getKey());
                     group.addUser(user);
-                    callback.single(group, KEY_GROUP_LISTENER);
+                    callback.single(group, KEY_GROUP);
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -127,5 +152,17 @@ public class GroupRepository extends BaseRepository<Group> implements GroupRepos
                 }
             });
         }
+    }
+
+    private Group createGroupObject(String id, String name, String description, String location, String[] userIds, String[] chatIds){
+        List<User> users = new NonDuplicateList<>();
+        List<Chat> chats = new NonDuplicateList<>();
+        for (String userId : userIds) {
+            users.add(new User(userId, null));
+        }
+        for (String chatId : chatIds){
+            chats.add(new Chat(chatId, null, null));
+        }
+        return new Group(id, name, description, location, users, chats);
     }
 }

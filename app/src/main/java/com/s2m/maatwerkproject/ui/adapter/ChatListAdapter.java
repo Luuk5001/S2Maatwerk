@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListItemViewHolder> {
+public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListItemViewHolder> implements UpdatableAdapterInterface<Chat> {
 
     public interface ChatListListener {
         void onClickChatItem(Chat chat);
@@ -28,6 +28,22 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     public ChatListAdapter(List<Chat> chats, ChatListListener listener){
         this.chats = chats;
         this.listener = listener;
+    }
+
+    @Override
+    public void refreshData(List<Chat> data) {
+
+    }
+
+    @Override
+    public void addItem(Chat item) {
+        chats.add(item);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void removeItem(Chat item) {
+
     }
 
     @Override
@@ -71,34 +87,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             //TODO get group user is participating with
             //TODO do not allow nulls in group array
             this.chat = chat;
-            textViewGroupName.setText("");
-            textViewLastMessage.setText("");
-
-            /*
             textViewChatName.setText(chat.getName());
-            if(chat.getGroups() != null){
-                textViewGroupName.setText(chat.getGroups().get(0).getName());
-            }
-            if(chat.getMessages() != null){
-                Message message = chat.getMessages().get(0);
-                textViewLastMessage.setText(Html
-                        .fromHtml("<b>" + message.getGroup().getName() + ":</b> " + message.getText()));
-            }
-            */
         }
 
         @Override
         public void onClick(View v) {
-            onChatSelected(chat);
+            listener.onClickChatItem(chat);
         }
-    }
-
-    private void onChatSelected(Chat chat) {
-        listener.onClickChatItem(chat);
-    }
-
-    public void addItem(int position, Chat chat){
-        chats.add(position, chat);
-        notifyItemInserted(position);
     }
 }

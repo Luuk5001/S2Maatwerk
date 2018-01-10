@@ -89,7 +89,6 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         }
 
         void bindGroupListItem(Group group){
-            group.getUsers().remove(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), null));
             this.group = group;
             textViewGroupUsers.setText("");
             textViewGroupName.setText(group.getName());

@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
+import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Chat;
+import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.repository.ChatRepository;
 import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.ui.activity.ChatActivity;
@@ -34,6 +36,7 @@ public class ChatListFragment extends Fragment implements ChatListAdapter.ChatLi
     @BindView(R.id.textViewNoChats)
     TextView emptyView;
 
+    private ChatRepository chatRepo;
     private ChatListAdapter chatListAdapter;
 
     @Nullable
@@ -42,7 +45,7 @@ public class ChatListFragment extends Fragment implements ChatListAdapter.ChatLi
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
         ButterKnife.bind(this, view);
 
-        ChatRepository chatRepo = new ChatRepository(this);
+        chatRepo = new ChatRepository(this);
 
         chatListAdapter = new ChatListAdapter(new NonDuplicateList<Chat>(), this);
 
@@ -56,6 +59,12 @@ public class ChatListFragment extends Fragment implements ChatListAdapter.ChatLi
         return view;
     }
 
+    public void addGroup(Group group){
+        for(Chat chat : group.getChats()){
+            chatRepo.getById(chat.getId(), "test");
+        }
+    }
+
     @Override
     public void onClickChatItem(Chat chat) {
         Intent intent = new Intent(getContext(), ChatActivity.class);
@@ -65,7 +74,9 @@ public class ChatListFragment extends Fragment implements ChatListAdapter.ChatLi
 
     @Override
     public void single(Chat obj, String callKey) {
-
+        if (callKey.equals("test")){
+            chatListAdapter.addItem(obj);
+        }
     }
 
     @Override

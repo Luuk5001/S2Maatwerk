@@ -5,36 +5,36 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Group;
+import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
 import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
+import com.s2m.maatwerkproject.data.repository.UserRepository;
 import com.s2m.maatwerkproject.ui.fragment.ChatListFragment;
-import com.s2m.maatwerkproject.ui.fragment.GroupListListenerListFragment;
-import com.s2m.maatwerkproject.utils.NonDuplicateList;
+import com.s2m.maatwerkproject.ui.fragment.GroupListFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends MainOptionsMenuActivity implements RepositoryCallback<Group> {
 
-    private List<Group> groups;
     private ChatListFragment chatListFragment;
-    private GroupListListenerListFragment groupListFragment;
+    private GroupListFragment groupListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        groups = new NonDuplicateList<>();
-
         GroupRepository groupRepo = new GroupRepository(this);
-        groupRepo.setChildEventListener(Firebase.getAuthInstance().getCurrentUser().getUid());
+        groupRepo.getMyGroups(Firebase.getAuthInstance().getCurrentUser().getUid());
 
         chatListFragment = new ChatListFragment();
-        groupListFragment = new GroupListListenerListFragment();
+        groupListFragment = new GroupListFragment();
 
         ViewPager viewPager = findViewById(R.id.viewPagerMain);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -60,16 +60,12 @@ public class MainActivity extends MainOptionsMenuActivity implements RepositoryC
 
     @Override
     public void single(Group obj, String callKey) {
-        if(callKey.equals(GroupRepository.KEY_GROUP_LISTENER)){
-            groupListFragment.addGroup(obj);
-        }
-        else if(callKey.equals(GroupRepository.KEY_GROUP_DELETED)){
-            groupListFragment.removeGroup(obj);
-        }
+        groupListFragment.addGroup(obj);
+        chatListFragment.addGroup(obj);
     }
 
     @Override
-    public void list(List obj, String callKey) {
+    public void list(List<Group> obj, String callKey) {
 
     }
 

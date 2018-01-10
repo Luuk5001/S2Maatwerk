@@ -21,6 +21,7 @@ import com.s2m.maatwerkproject.utils.NonDuplicateList;
 import org.apache.commons.lang3.StringUtils;
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,7 +51,7 @@ public class PickGroupActivity extends AppCompatActivity implements PickGroupLis
         ButterKnife.bind(this);
 
         groups = new NonDuplicateList<>();
-        selectedGroups = new NonDuplicateList<>();
+        selectedGroups = new ArrayList<>();
 
         groupRepo = new GroupRepository(this);
         groupRepo.searchGroups(null);

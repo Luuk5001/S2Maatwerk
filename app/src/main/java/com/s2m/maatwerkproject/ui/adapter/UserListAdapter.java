@@ -28,7 +28,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
     private UserListListener listener;
 
     public UserListAdapter(List<User> users, UserListListener listener){
-        users.remove(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), null));
         this.users = users;
         this.listener = listener;
     }
@@ -82,8 +81,13 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
 
         void bindUser(User user){
             this.user = user;
-            textViewUserName.setText(user.getName());
-            imageViewDeleteUser.setOnClickListener(this);
+            if(user.getId().equals(Firebase.getAuthInstance().getCurrentUser().getUid())){
+                textViewUserName.setText("You");
+            }
+            else{
+                textViewUserName.setText(user.getName());
+                imageViewDeleteUser.setOnClickListener(this);
+            }
         }
 
         @Override

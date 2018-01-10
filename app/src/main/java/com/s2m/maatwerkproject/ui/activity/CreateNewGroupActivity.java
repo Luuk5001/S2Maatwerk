@@ -63,11 +63,14 @@ public class CreateNewGroupActivity extends ValidationActivity implements Reposi
                 Bundle bundle = data.getExtras();
                 List<User> users = Parcels.unwrap(bundle.getParcelable(User.USER_MODEL_KEY));
                 users.add(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), null));
+                //TODO
+                /*
                 Group group = new Group(editTextGroupName.getText().toString(),
                         editTextGroupDescription.getText().toString(),
                         editTextGroupLocation.getText().toString(),
                         users);
                 groupRepo.createGroup(group);
+                */
             }
         }
     }
