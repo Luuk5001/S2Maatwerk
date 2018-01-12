@@ -5,22 +5,19 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.data.repository.UserRepository;
 import com.s2m.maatwerkproject.ui.fragment.ChatListFragment;
 import com.s2m.maatwerkproject.ui.fragment.GroupListFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends MainOptionsMenuActivity implements RepositoryCallback<Group> {
+public class MainActivity extends MainOptionsMenuActivity implements GroupRepository.GroupRepositoryCallback, UserRepository.UserRepositoryCallback {
 
     private ChatListFragment chatListFragment;
     private GroupListFragment groupListFragment;
@@ -59,18 +56,28 @@ public class MainActivity extends MainOptionsMenuActivity implements RepositoryC
     }
 
     @Override
-    public void single(Group obj, String callKey) {
-        groupListFragment.addGroup(obj);
-        chatListFragment.addGroup(obj);
-    }
-
-    @Override
-    public void list(List<Group> obj, String callKey) {
+    public void singleUser(User user, String callKey) {
 
     }
 
     @Override
-    public void error(String errorMessage) {
+    public void userList(List<User> users, String callKey) {
+
+    }
+
+    @Override
+    public void singleGroup(Group group, String callKey) {
+        groupListFragment.addGroup(group);
+        chatListFragment.addGroup(group);
+    }
+
+    @Override
+    public void groupList(List<Group> groups, String callKey) {
+
+    }
+
+    @Override
+    public void error(String errorMessage, String callKey) {
 
     }
 }

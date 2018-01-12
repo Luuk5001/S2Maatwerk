@@ -11,7 +11,6 @@ import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.repository.ChatRepository;
-import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 
 import org.parceler.Parcels;
 
@@ -21,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreateNewChatActivity extends AppCompatActivity implements RepositoryCallback<Chat> {
+public class CreateNewChatActivity extends AppCompatActivity implements ChatRepository.ChatRepositoryCallback {
 
     @BindView(R.id.editTextCreateChatName)
     EditText editTextChatName;
@@ -58,18 +57,14 @@ public class CreateNewChatActivity extends AppCompatActivity implements Reposito
     }
 
     private void createChat(List<Group> groups) {
+        String chatName = editTextChatName.getText().toString();
         Chat chat = new Chat(editTextChatName.getText().toString(),
-                null,null);
+                chatName,null);
         chatRepo.createChat(chat, groups);
     }
 
     @Override
-    public void single(Chat obj, String callKey) {
-
-    }
-
-    @Override
-    public void list(List<Chat> obj, String callKey) {
+    public void SingleChat(Chat obj, String callKey) {
 
     }
 

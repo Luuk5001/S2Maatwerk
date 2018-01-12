@@ -13,7 +13,6 @@ import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 
 import org.parceler.Parcels;
 
@@ -23,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreateNewGroupActivity extends ValidationActivity implements RepositoryCallback<Group> {
+public class CreateNewGroupActivity extends ValidationActivity implements GroupRepository.GroupRepositoryCallback {
 
     private static final int RC_PICKED_USERS = 101;
 
@@ -63,14 +62,11 @@ public class CreateNewGroupActivity extends ValidationActivity implements Reposi
                 Bundle bundle = data.getExtras();
                 List<User> users = Parcels.unwrap(bundle.getParcelable(User.USER_MODEL_KEY));
                 users.add(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), null));
-                //TODO
-                /*
                 Group group = new Group(editTextGroupName.getText().toString(),
                         editTextGroupDescription.getText().toString(),
                         editTextGroupLocation.getText().toString(),
-                        users);
+                        users, null);
                 groupRepo.createGroup(group);
-                */
             }
         }
     }
@@ -87,14 +83,14 @@ public class CreateNewGroupActivity extends ValidationActivity implements Reposi
 
 
     @Override
-    public void single(Group obj, String callKey) {
-        if(callKey.equals(GroupRepository.KEY_GROUP_CREATED)){
+    public void singleGroup(Group obj, String callKey) {
+        if(callKey.equals(GroupRepository.KEY_CREATE_GROUP)){
             finish();
         }
     }
 
     @Override
-    public void list(List<Group> obj, String callbackKey) {
+    public void groupList(List<Group> obj, String callbackKey) {
 
     }
 

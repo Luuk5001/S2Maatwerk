@@ -1,8 +1,8 @@
 package com.s2m.maatwerkproject.data.repository;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.User;
@@ -10,19 +10,40 @@ import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import java.util.List;
 
-public class UserRepository extends BaseRepository<User> implements UserRepositoryInterface {
+public class UserRepository implements UserRepositoryInterface {
 
-    public static final String KEY_USER = "user";
-    public static final String KEY_USERS_FOUND = "users_found";
-    public static final String KEY_SINGED_IN_USER = "singed_in_user";
-
-    public UserRepository(RepositoryCallback<User> callback) {
-        super(User.class, callback, Firebase.getDatabaseInstance().getReference().child("user"));
+    public interface UserRepositoryCallback{
+        void singleUser(User user, String callKey);
+        void userList(List<User> users, String callKey);
+        void error(String errorMessage, String callKey);
     }
 
-    @Override
-    public void addUser(User user) {
-        reference.child(user.getId()).setValue(user);
+    public static final String KEY_USER_BY_ID = "user_by_id";
+    public static final String KEY_SEARCH_USERS = "search_users";
+
+    private DatabaseReference reference;
+    private UserRepositoryCallback callback;
+
+    public UserRepository(UserRepositoryCallback callback) {
+        this.callback = callback;
+        reference = Firebase.getDatabaseInstance().getReference().child("user");
+    }
+
+    public void getUserById(String userId){
+        reference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userId = dataSnapshot.getKey();
+                String userName = (String)dataSnapshot.child("name").getValue();
+                User user = new User(userId, userName);
+                callback.singleUser(user, KEY_USER_BY_ID);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.error("ERROR", KEY_USER_BY_ID);
+            }
+        });
     }
 
     @Override
@@ -39,12 +60,17 @@ public class UserRepository extends BaseRepository<User> implements UserReposito
                         list.add(user);
                     }
                 }
-                callback.list(list, KEY_USERS_FOUND);
+                callback.userList(list, KEY_SEARCH_USERS);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    @Override
+    public void createUser(User user) {
+        reference.child(user.getId()).setValue(user);
     }
 }

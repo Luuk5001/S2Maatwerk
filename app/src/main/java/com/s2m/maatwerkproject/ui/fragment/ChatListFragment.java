@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.s2m.maatwerkproject.R;
-import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.models.Chat;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.repository.ChatRepository;
-import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.ui.activity.ChatActivity;
 import com.s2m.maatwerkproject.ui.adapter.ChatListAdapter;
 import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
@@ -24,12 +22,10 @@ import com.s2m.maatwerkproject.utils.NonDuplicateList;
 
 import org.parceler.Parcels;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChatListFragment extends Fragment implements ChatListAdapter.ChatListListener, RepositoryCallback<Chat> {
+public class ChatListFragment extends Fragment implements ChatListAdapter.ChatListListener, ChatRepository.ChatRepositoryCallback {
 
     @BindView(R.id.recyclerViewChatList)
     EmptyRecyclerView recyclerView;
@@ -61,7 +57,7 @@ public class ChatListFragment extends Fragment implements ChatListAdapter.ChatLi
 
     public void addGroup(Group group){
         for(Chat chat : group.getChats()){
-            chatRepo.getById(chat.getId(), "test");
+            chatRepo.getChatById(chat.getId());
         }
     }
 
@@ -73,15 +69,10 @@ public class ChatListFragment extends Fragment implements ChatListAdapter.ChatLi
     }
 
     @Override
-    public void single(Chat obj, String callKey) {
-        if (callKey.equals("test")){
+    public void SingleChat(Chat obj, String callKey) {
+        if (callKey.equals(ChatRepository.KEY_CHAT_BY_ID)){
             chatListAdapter.addItem(obj);
         }
-    }
-
-    @Override
-    public void list(List<Chat> obj, String callKey) {
-
     }
 
     @Override

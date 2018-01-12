@@ -12,7 +12,6 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 
 import org.parceler.Parcels;
 
@@ -22,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditGroupActivity extends ValidationActivity implements RepositoryCallback<Group> {
+public class EditGroupActivity extends ValidationActivity implements GroupRepository.GroupRepositoryCallback {
 
     public static final String TAG = EditGroupActivity.class.getSimpleName();
 
@@ -87,8 +86,8 @@ public class EditGroupActivity extends ValidationActivity implements RepositoryC
     }
 
     @Override
-    public void single(Group obj, String callKey) {
-        if(callKey.equals(GroupRepository.KEY_GROUP_UPDATED)){
+    public void singleGroup(Group obj, String callKey) {
+        if(callKey.equals(GroupRepository.KEY_UPDATE_GROUP)){
             Intent intent = new Intent();
             intent.putExtra(Group.GROUP_MODEL_KEY, Parcels.wrap(group));
             setResult(RESULT_OK, intent);
@@ -97,7 +96,7 @@ public class EditGroupActivity extends ValidationActivity implements RepositoryC
     }
 
     @Override
-    public void list(List<Group> obj, String callKey) {
+    public void groupList(List<Group> obj, String callKey) {
 
     }
 

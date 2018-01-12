@@ -12,7 +12,6 @@ import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.Firebase;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.ui.adapter.UserListAdapter;
 import com.s2m.maatwerkproject.data.models.Group;
 
@@ -24,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GroupInfoActivity extends AppCompatActivity implements UserListAdapter.UserListListener, RepositoryCallback<Group> {
+public class GroupInfoActivity extends AppCompatActivity implements UserListAdapter.UserListListener, GroupRepository.GroupRepositoryCallback {
 
     private static final int RC_UPDATED_GROUP = 101;
     private static final int RC_PICKED_USERS = 102;
@@ -93,8 +92,8 @@ public class GroupInfoActivity extends AppCompatActivity implements UserListAdap
     }
 
     @Override
-    public void single(Group obj, String callKey) {
-        if(callKey.equals(GroupRepository.KEY_GROUP_UPDATED)){
+    public void singleGroup(Group obj, String callKey) {
+        if(callKey.equals(GroupRepository.KEY_UPDATE_GROUP)){
             if(leavingGroup){
                 finish();
             }
@@ -107,7 +106,7 @@ public class GroupInfoActivity extends AppCompatActivity implements UserListAdap
     }
 
     @Override
-    public void list(List<Group> obj, String callKey) {
+    public void groupList(List<Group> obj, String callKey) {
 
     }
 

@@ -18,31 +18,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GroupRepository extends BaseRepository<Group> implements GroupRepositoryInterface {
+public class GroupRepository implements GroupRepositoryInterface {
 
-    public GroupRepository(RepositoryCallback callback) {
-		super(Group.class, callback, Firebase.getDatabaseInstance().getReference().child("group"));
-	}
-
-    @Override
-    public void searchGroups(String keywords) {
-        reference.limitToFirst(50).startAt(keywords).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Group> list = new ArrayList<>();
-                for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    Group group = child.getValue(Group.class);
-                    group.setId(child.getKey());
-                    list.add(group);
-                }
-                callback.list(list, KEY_GROUPS_FOUND);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+    public interface GroupRepositoryCallback{
+        void singleGroup(Group group, String callKey);
+        void groupList(List<Group> groups, String callKey);
+        void error(String errorMessage, String callKey);
     }
+
+    private DatabaseReference reference;
+    private GroupRepositoryCallback callback;
+
+    public GroupRepository(GroupRepositoryCallback callback) {
+        this.callback = callback;
+        reference = Firebase.getDatabaseInstance().getReference().child("group");
+	}
 
     @Override
     public void getMyGroups(final String userId){
@@ -72,7 +62,7 @@ public class GroupRepository extends BaseRepository<Group> implements GroupRepos
                             tempUser.setId(dataSnapshot.getKey());
                             tempUser.setName((String)dataSnapshot.child("name").getValue());
                             group.getUsers().add(tempUser);
-                            callback.single(group, KEY_GROUP);
+                            callback.singleGroup(group, KEY_MY_GROUPS);
                         }
 
                         @Override
@@ -86,31 +76,42 @@ public class GroupRepository extends BaseRepository<Group> implements GroupRepos
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //TODO handle error
-                callback.error("ERROR");
+                callback.error("ERROR", KEY_MY_GROUPS);
+            }
+        });
+    }
+
+    @Override
+    public void searchGroups(String keywords) {
+        reference.limitToFirst(50).startAt(keywords).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Group> list = new ArrayList<>();
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                    Group group = child.getValue(Group.class);
+                    group.setId(child.getKey());
+                    list.add(group);
+                }
+                callback.groupList(list, KEY_SEARCH_GROUPS);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
     }
 
     @Override
     public void createGroup(Group group){
-        writeChanges(reference.push().getKey(), group, KEY_GROUP_CREATED);
+        writeChangesToDatabase(reference.push().getKey(), group, KEY_CREATE_GROUP);
     }
 
     @Override
     public void updateGroup(Group group) {
-        writeChanges(group.getId(), group, KEY_GROUP_UPDATED);
+        writeChangesToDatabase(group.getId(), group, KEY_UPDATE_GROUP);
     }
 
-    /*
-    @Override
-    public void onChildRemoved(DataSnapshot dataSnapshot) {
-        Group group = dataSnapshot.getValue(Group.class);
-        group.setId(dataSnapshot.getKey());
-        callback.single(group, KEY_GROUP_DELETED);
-    }
-    */
-
-    private void writeChanges(String id, final Group group, final String callKey){
+    private void writeChangesToDatabase(String id, final Group group, final String callKey){
         DatabaseReference groupRef = reference.child(id);
         groupRef.setValue(group);
         groupRef = groupRef.child("users");
@@ -123,35 +124,14 @@ public class GroupRepository extends BaseRepository<Group> implements GroupRepos
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    callback.single(group, callKey);
+                    callback.singleGroup(group, callKey);
                 }
                 else{
                     //TODO handle error correctly
-                    callback.error("ERROR");
+                    callback.error("ERROR", callKey);
                 }
             }
         });
-    }
-
-    private void sendGroupObject(DataSnapshot dataSnapshot){
-        final Group group = dataSnapshot.getValue(Group.class);
-        group.setId(dataSnapshot.getKey());
-        for(DataSnapshot userChild : dataSnapshot.child("users").getChildren()) {
-            reference.getParent().child("user/"+userChild.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    User user = dataSnapshot.getValue(User.class);
-                    user.setId(dataSnapshot.getKey());
-                    group.addUser(user);
-                    callback.single(group, KEY_GROUP);
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    //TODO handle error correctly
-                    callback.error("ERROR");
-                }
-            });
-        }
     }
 
     private Group createGroupObject(String id, String name, String description, String location, String[] userIds, String[] chatIds){

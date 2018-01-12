@@ -34,6 +34,14 @@ public class Group {
         this.chats = chats;
     }
 
+    public Group(String name, String description, String location, List<User> users, List<Chat> chats) {
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.users = users;
+        this.chats = chats;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Group){
@@ -99,21 +107,21 @@ public class Group {
 
     public void addUser(User user){
         if(users == null){
-            Log.d(TAG, "User list does not exist, creating one...");
+            Log.d(TAG, "User groupList does not exist, creating one...");
             users = new NonDuplicateList<User>() {
             };
         }
         users.add(user);
-        Log.d(TAG, "User added to list");
+        Log.d(TAG, "User added to groupList");
     }
 
     public void removeUser(User user){
         if(users != null){
             users.remove(user);
-            Log.d(TAG, "User removed from list");
+            Log.d(TAG, "User removed from groupList");
         }
         else{
-            Log.e(TAG, "User list does not exist, cannot remove user");
+            Log.e(TAG, "User groupList does not exist, cannot remove user");
         }
     }
 }

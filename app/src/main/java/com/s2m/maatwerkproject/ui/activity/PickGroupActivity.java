@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.Group;
 import com.s2m.maatwerkproject.data.repository.GroupRepository;
-import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.ui.adapter.PickGroupListAdapter;
 import com.s2m.maatwerkproject.ui.view.EmptyRecyclerView;
 import com.s2m.maatwerkproject.utils.NonDuplicateList;
@@ -28,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PickGroupActivity extends AppCompatActivity implements PickGroupListAdapter.PickGroupListener, RepositoryCallback<Group> {
+public class PickGroupActivity extends AppCompatActivity implements PickGroupListAdapter.PickGroupListener, GroupRepository.GroupRepositoryCallback {
 
     public static final int GROUP_REQUEST_CODE = 102;
 
@@ -116,13 +115,13 @@ public class PickGroupActivity extends AppCompatActivity implements PickGroupLis
     }
 
     @Override
-    public void single(Group obj, String callKey) {
+    public void singleGroup(Group obj, String callKey) {
 
     }
 
     @Override
-    public void list(List<Group> obj, String callKey) {
-        if(callKey.equals(GroupRepository.KEY_GROUPS_FOUND)){
+    public void groupList(List<Group> obj, String callKey) {
+        if(callKey.equals(GroupRepository.KEY_SEARCH_GROUPS)){
             groups = obj;
             pickGroupListAdapter.refreshData(groups);
         }

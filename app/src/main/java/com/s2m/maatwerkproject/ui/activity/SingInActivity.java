@@ -10,12 +10,10 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.s2m.maatwerkproject.R;
 import com.s2m.maatwerkproject.data.models.User;
 import com.s2m.maatwerkproject.data.Firebase;
-import com.s2m.maatwerkproject.data.repository.RepositoryCallback;
 import com.s2m.maatwerkproject.data.repository.UserRepository;
 import com.s2m.maatwerkproject.ui.fragment.dialog.UsernameDialogFragment;
 
@@ -25,7 +23,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SingInActivity extends AppCompatActivity implements RepositoryCallback<User>, UsernameDialogFragment.UsernameDialogListener {
+public class SingInActivity extends AppCompatActivity implements UserRepository.UserRepositoryCallback, UsernameDialogFragment.UsernameDialogListener {
 
     public static final int RC_SING_IN = 101;
 
@@ -49,8 +47,8 @@ public class SingInActivity extends AppCompatActivity implements RepositoryCallb
     }
 
     @Override
-    public void single(User user, String callbackKey) {
-        if(callbackKey.equals(UserRepository.KEY_USER)){
+    public void singleUser(User user, String callbackKey) {
+        if(callbackKey.equals(UserRepository.KEY_USER_BY_ID)){
             if(user == null){
                 UsernameDialogFragment dialogUsernameFragment = new UsernameDialogFragment();
                 dialogUsernameFragment.show(getFragmentManager(), DialogFragment.class.getSimpleName());
@@ -62,7 +60,7 @@ public class SingInActivity extends AppCompatActivity implements RepositoryCallb
     }
 
     @Override
-    public void list(List<User> users, String callbackKey) {
+    public void userList(List<User> users, String callbackKey) {
 
     }
 
@@ -73,7 +71,7 @@ public class SingInActivity extends AppCompatActivity implements RepositoryCallb
 
     @Override
     public void onUsernameDialogPositiveClick(String username) {
-        userRepo.addUser(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), username));
+        userRepo.createUser(new User(Firebase.getAuthInstance().getCurrentUser().getUid(), username));
         startMainActivity();
     }
 
@@ -128,6 +126,6 @@ public class SingInActivity extends AppCompatActivity implements RepositoryCallb
     }
 
     private void checkIfUserExists(){
-        userRepo.getById(Firebase.getAuthInstance().getCurrentUser().getUid(), UserRepository.KEY_USER);
+        userRepo.getUserById(Firebase.getAuthInstance().getCurrentUser().getUid());
     }
 }
